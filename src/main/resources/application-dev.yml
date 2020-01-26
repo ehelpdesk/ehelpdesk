@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: ehelpdesk
+  jackson:
+    serialization:
+      indent-output: true
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/
+    username: root
+    password: root
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+
+  jpa:
+    database: MYSQL
+    show-sql: true
+  thymeleaf:
+    cache: false
+
+server:
+  port: 9595
+
+ehelpdesk:
+  ehelpdesk-app:
+    name: 'ehelpdesk'
+  security:
+    remember-me:
+      key: e48612ba1fd46fa7089fe9f5085d8d164b53ffb2
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Link,X-Total-Count"
+    allow-credentials: true
+    max-age: 1800

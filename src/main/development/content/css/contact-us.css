@@ -1,0 +1,33 @@
+.section-contact-us {
+  background-color: #192D43;
+}
+
+.contact-us-form {
+  width: 60%;
+  margin: 0 auto;
+  color: #ccc;
+}
+
+.contact-us-form input[type=text],
+.contact-us-form input[type=email],
+.contact-us-form select,
+.contact-us-form textarea {
+  width: 100%;
+  padding: 7px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.contact-us-form label {
+  color: #ccc;
+}
+
+.contact-us-form textarea {
+  height: 100px;
+}
+
+.contact-us-form input[type=checkbox] {
+  margin: 10px 5px 10px 0;
+}
+
+.contact-us-form *:focus {outline: none;}

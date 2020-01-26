@@ -1,0 +1,54 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'com.gorylenko.gradle-git-properties'
+
+configurations {
+     compile.exclude module: 'spring-boot-starter-logging'
+     compile.exclude module: 'logback-classic'
+     compile.exclude module: 'spring-boot-devtools'
+}
+
+dependencies {
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'
+}
+
+def profiles = 'prod'
+
+bootRun {
+    args = []
+}
+
+task webpack_test(type: NpmTask, dependsOn: "npmInstall") {
+  args = ["run", "webpack:test"]
+}
+
+task webpack(type: NpmTask, dependsOn: "npmInstall") {
+  args = ["run", "webpack:prod"]
+  environment = [APP_VERSION: project.version]
+}
+
+processResources {
+    filesMatching('**/application.yml') {
+        filter {
+            it.replace('#project.version#', version)
+        }
+        filter {
+            it.replace('#spring.profiles.active#', profiles)
+        }
+    }
+	from ('build/www/') {
+        into 'public'
+    }
+}
+
+generateGitProperties {
+    onlyIf {
+        !source.isEmpty()
+    }
+}
+
+gitProperties {
+    keys = ['git.branch', 'git.commit.id.abbrev', 'git.commit.id.describe']
+}
+
+test.dependsOn webpack_test
+processResources.dependsOn webpack

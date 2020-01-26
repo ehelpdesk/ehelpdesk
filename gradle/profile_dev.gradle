@@ -1,0 +1,38 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-devtools"
+}
+
+def profiles = 'dev'
+
+
+bootRun {
+    args = []
+}
+
+task webpack_test(type: NpmTask, dependsOn: 'npm_install') {
+  args = ["run", "webpack:test"]
+}
+
+task webpackBuildDev(type: NpmTask) {
+  args = ["run", "webpack:build"]
+}
+
+processResources {
+    filesMatching('**/application.yml') {
+        filter {
+            it.replace('#project.version#', version)
+        }
+        filter {
+            it.replace('#spring.profiles.active#', profiles)
+        }
+    }
+    from ('build/www/') {
+        into 'public'
+    }
+}
+
+test.dependsOn webpack_test
+processResources.dependsOn webpackBuildDev
+webpackBuildDev.onlyIf { project.hasProperty('webpack') }

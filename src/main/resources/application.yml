@@ -1,20 +1,51 @@
+management:
+  endpoints:
+    beans:
+      enabled: false
+    web:
+      base-path: /management
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      sensitive: false
+  info:
+    git:
+      mode: full
+  health:
+    mail:
+      enabled: false
+  metrics:
+    enabled: false
+
 spring:
   application:
-    name: ehelpdesk
-  jackson:
-    serialization:
-      indent-output: true
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/
-    username: root
-    password: root
-    hikari:
-      poolName: Hikari
-      auto-commit: false
-
-  jpa:
-    database: MYSQL
-    show-sql: true
+    name: queryfier
+  profiles:
+    active: #spring.profiles.active#
+  mvc:
+    favicon:
+      enabled: false
   thymeleaf:
-    cache: false
+    mode: HTML
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: alpha9ineinc@gmail.com
+    password: dligfaajruiqfzif
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+    test-connection: false
+  messages:
+    basename: i18n/messages
+  jpa:
+    show-sql: true
+
+
+info:
+  project:
+    version: #project.version#

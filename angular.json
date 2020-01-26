@@ -1,0 +1,40 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ehelpdesk": {
+      "root": "",
+      "sourceRoot": "src/main/development",
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "inlineStyle": true,
+          "inlineTemplate": false,
+          "skipTests": false,
+          "prefix": "qf",
+          "styleExt": "css"
+        },
+        "@schematics/angular:directive": {
+          "skipTests": false,
+          "prefix": "qf"
+        },
+        "@schematics/angular:guard": {
+          "skipTests": false
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": false
+        },
+        "@schematics/angular:service": {
+          "skipTests": false
+        }
+      },
+      "prefix": "qf",
+      "architect": {}
+    }
+  },
+  "defaultProject": "ehelpdesk",
+  "cli": {
+    "packageManager": "yarn"
+  }
+}

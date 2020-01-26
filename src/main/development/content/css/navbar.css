@@ -1,0 +1,100 @@
+:root {
+  --primary-color: #135b8d;
+  --secondary-color: #135b8d;
+}
+
+.navbar-logo {
+  height: 39px;
+}
+
+#navbar ul {
+  list-style: none;
+}
+
+#navbar ul li {
+  color: #FFF;
+  display: inline-block;
+  padding: 0 1rem;
+  position: relative;
+  height: 39px;
+}
+
+#navbar ul li.active {
+  color: #135b8d;
+}
+
+#navbar ul li a.active {
+  color: #135b8d;
+}
+
+#navbar ul li a:link
+, #navbar ul li a:visited
+{
+  text-decoration: none;
+  text-transform: none;
+  border-bottom: 0;
+}
+
+/* Hide nested ul by default */
+#navbar ul li ul {
+  display: none;
+}
+
+#navbar ul li:hover {
+  cursor: pointer;
+  color: #135b8d;
+}
+
+#navbar ul li:hover a {
+  color: #135b8d;
+}
+
+/* Nested dropdown show */
+#navbar ul li:hover ul {
+  display: block;
+  position: absolute;
+  left: 0;
+  width: 200px;
+  margin-top: 1rem;
+  top: 21px;
+  border-radius: 2px;
+}
+
+#navbar ul li:hover ul li {
+  display: block;
+  background: #135b8d;
+  z-index: 2;
+}
+
+#navbar ul li:hover ul li a {
+  color: #333;
+  height: 39px;
+}
+
+#navbar ul li:hover ul li:hover {
+  background: #135b8d;
+  color: inherit;
+}
+
+#navbar ul li:hover ul li span {
+  float: right;
+  color: #fff;
+  padding: 0.5rem 0.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+#navbar ul li:hover ul li:hover span {
+  background: var(--secondary-color);
+}
+
+@media(max-width: 600px) {
+  #navbar ul li {
+    display: block;
+  }
+
+  #navbar ul li:hover ul {
+    width: 100%;
+    position: relative;
+  }
+}

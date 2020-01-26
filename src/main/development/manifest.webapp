@@ -1,0 +1,16 @@
+{
+  "name": "EhelpdeskApplication",
+  "short_name": "ehelpdesk",
+  "icons": [
+      {
+          "src": "./content/images/ehelpdesk.png",
+          "sizes": "101x101",
+          "type": "image/png"
+      }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#e0e0e0",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}
