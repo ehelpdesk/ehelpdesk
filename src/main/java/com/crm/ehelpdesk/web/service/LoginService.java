@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,8 +39,11 @@ public class LoginService {
     cacheService.removeUserOtp(username);
   }
 
-  public boolean isValidCredentials(Map<String, Object> credentials) {
-    boolean isValidCredentials = false;
+  public Map<String, Object> isValidCredentials(Map<String, Object> credentials) {
+    Map<String, Object> verificationResult = new HashMap<>();
+    boolean isValidUser = false;
+    boolean hasMobileAccess = false;
+    boolean isOtpCheckEnabled = true;
     String username = (String) credentials.get("username");
     String password = (String) credentials.get("password");
     if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(password)) {
@@ -48,15 +52,22 @@ public class LoginService {
         User user = loginOptional.get();
         String userPassword = user.getPassword();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        isValidCredentials = bCryptPasswordEncoder.matches(password, userPassword);
-        if(isValidCredentials) {
-          String otp = RandomStringUtils.randomNumeric(5);
-          user.setOtp(otp);
-          cacheService.addUserOtp(user.getLogin(), otp);
-          mailService.sendOtpEmail(user);
+        isValidUser = bCryptPasswordEncoder.matches(password, userPassword);
+        isOtpCheckEnabled = user.isOtpCheck();
+        if (isValidUser) {
+          hasMobileAccess = user.hasMobileAccess();
+          if (isOtpCheckEnabled) {
+            String otp = RandomStringUtils.randomNumeric(5);
+            user.setOtp(otp);
+            cacheService.addUserOtp(user.getLogin(), otp);
+            mailService.sendOtpEmail(user);
+          }
         }
       }
     }
-    return isValidCredentials;
+    verificationResult.put("isValidUser", isValidUser);
+    verificationResult.put("hasMobileAccess", hasMobileAccess);
+    verificationResult.put("isOtpCheckEnabled", isOtpCheckEnabled);
+    return verificationResult;
   }
 }

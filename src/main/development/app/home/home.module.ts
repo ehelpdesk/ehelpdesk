@@ -7,11 +7,11 @@ import {RouterModule} from '@angular/router';
 import {homeRoutes} from 'app/home/home.route';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { FooterComponent } from './footer/footer.component';
-import { CitiesComponent } from './cities/cities.component';
-import { PricingComponent } from './pricing/pricing.component';
+import { ProductsComponent } from './products/products.component';
+import { WorksComponent } from './works/works.component';
 
 @NgModule({
-  declarations: [HomeComponent, ContactUsComponent, FooterComponent, CitiesComponent, PricingComponent],
+  declarations: [HomeComponent, ContactUsComponent, FooterComponent, ProductsComponent, WorksComponent],
   entryComponents: [],
   imports: [SharedModule, BrowserModule, HttpClientModule, RouterModule.forRoot(homeRoutes, {useHash: true})],
   providers: [],

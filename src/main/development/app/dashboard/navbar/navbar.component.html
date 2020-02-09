@@ -1,15 +1,51 @@
 <header class="login-header">
   <div style="position: relative">
 
-    <nav>
-      <div class="row">
-        <ul class="main-nav">
-          <li><a href="#">Companies</a></li>
-          <li><a href="#">How it works</a></li>
-          <li><a href="#">Products</a></li>
-          <li><a href="#">Sign up</a></li>
-        </ul>
+    <nav id="navbar" *ngIf="role">
+      <!--<a class="navbar-brand" href="#">
+        <img src="../../../content/images/knightknout.jpeg" width="30" height="30" alt="">
+      </a>-->
+      <div class="side-bar-contents">
+        <button class="hamburger-btn btn btn-regular btn-primary mr-3" id="sidebar-toggle" (click)="toggleSideMenu()">
+          <fa-icon icon="bars" fixedWidth="true" id="sidebar-toggle-icon"></fa-icon>
+        </button>
+        <img src="../../../content/images/ehelpdesk.png" alt="The logo" class="sidebar-logo" (click)="navigateToDashboard()">
       </div>
+      <ul class="nav-bar">
+        <li><img src="../../../content/images/ehelpdesk.png" alt="The logo" class="navbar-logo"
+                 (click)="navigateToDashboard()"></li>
+        <li><a routerLink="/dashboard" (click)="activateNav('home')"
+               [class.active]="activeNav == 'home'">Home</a></li>
+        <li><a routerLink="mainQueryfierEntry" (click)="activateNav('search')"
+               [ngClass]="activeNav=='search' ? 'active' : ''">Search</a></li>
+        <li (click)="activateNav('admin')" [ngClass]="activeNav=='admin' ? 'active' : ''"
+            *ngIf="role==='ROLE_ADMIN' || role === 'ROLE_SUPER_ADMIN'">
+          Administration <i class="fas fa-angle-down"></i>
+          <ul>
+            <li>
+              <a routerLink="admin/admin-management" class="cursor">
+                <div class="row">
+                  <fa-icon icon="user" fixedWidth="true"></fa-icon>
+                  <span>User management</span>
+                </div>
+              </a></li>
+          </ul>
+        </li>
+        <li (click)="activateNav('myAccount')" [ngClass]="activeNav=='myAccount' ? 'active' : ''">
+          My Account <i class="fas fa-angle-down"></i>
+          <ul>
+            <li>
+              <a routerLink="myAccount/changePassword" class="cursor">
+                <div class="row">
+                  <fa-icon icon="key" fixedWidth="true"></fa-icon>
+                  <span>Change Password</span>
+                </div>
+              </a></li>
+          </ul>
+        </li>
+        <li><a href="#" (click)="logout()">Logout</a></li>
+        <li class="float-right">Hi {{loggedInUserFirstName}}</li>
+      </ul>
     </nav>
   </div>
 </header>

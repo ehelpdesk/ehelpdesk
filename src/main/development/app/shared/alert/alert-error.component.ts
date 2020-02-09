@@ -4,7 +4,7 @@ import { Alert, AlertService } from 'app/shared/service/alert.service';
 import { EventManager } from 'app/shared/service/event-manager.service';
 
 @Component({
-    selector: 'qf-alert-error',
+    selector: 'eh-alert-error',
     template: `
         <div class="alerts" role="alert">
             <div *ngFor="let alert of alerts" [ngClass]="setClasses(alert)">

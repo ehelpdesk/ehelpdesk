@@ -76,3 +76,8 @@ footer p {
   text-align: center;
   margin-top: 20px;
 }
+
+.footer-link {
+  color: #007bff !important;
+  padding: 0 !important;
+}

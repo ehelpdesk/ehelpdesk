@@ -31,3 +31,16 @@
 }
 
 .contact-us-form *:focus {outline: none;}
+
+input[type=submit] {
+  border: 1px solid #135b8d;
+  display: inline-block;
+  padding: 10px 30px;
+  font-weight: 300;
+  text-decoration: none;
+  border-radius: 200px;
+  transition: background-color .2s,color .2s,border .2s;
+  color: #fff;
+  margin-right: 15px;
+  background-color: #135b8d;
+}

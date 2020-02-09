@@ -5,7 +5,7 @@ import { HealthService } from './health.service';
 import { HealthModalComponent } from './health-modal.component';
 
 @Component({
-    selector: 'qf-health',
+    selector: 'eh-health',
     templateUrl: './health.component.html'
 })
 export class HealthCheckComponent implements OnInit {

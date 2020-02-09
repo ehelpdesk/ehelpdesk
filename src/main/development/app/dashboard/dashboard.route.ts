@@ -20,6 +20,10 @@ const PAGE_ROUTES =
       },
       canActivate: [UserRouteAccessService],
       loadChildren: () => import('./../admin/admin-routing.module').then(m => m.AdminRoutingModule)
+    },
+    {
+      path: 'myAccount',
+      loadChildren: () => import('./my-account/my-account-routing.module').then(m => m.MyAccountRoutingModule)
     }
   ];
 export const pageState: Routes = [

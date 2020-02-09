@@ -1,24 +1,32 @@
-import {Component, isDevMode, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, isDevMode, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthServerProvider} from '../../core/auth/auth-session.service';
 import {AccountService} from 'app/core/auth/account.service';
 
 @Component({
-  selector: 'qf-navbar',
+  selector: 'eh-navbar',
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
+  @Input()
+  toggleSideBar: boolean;
+  @Output()
+  toggleSideBarChange = new EventEmitter<boolean>();
   role: string;
+  loggedInUserFirstName: string;
   activeNav: string;
+
   constructor(private authServerProvider: AuthServerProvider
-              , private router: Router
-              , private accountService: AccountService
-              ) {}
+      , private router: Router
+      , private accountService: AccountService
+  ) {
+  }
 
   ngOnInit(): void {
     this.activeNav = '';
     this.accountService.identity().subscribe(account => {
       this.role = account.authority;
+      this.loggedInUserFirstName = account.firstName;
     });
   }
 
@@ -33,6 +41,11 @@ export class NavbarComponent implements OnInit {
   }
 
   navigateToDashboard() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/dashboard']);
+  }
+
+  toggleSideMenu() {
+    this.toggleSideBar = !this.toggleSideBar;
+    this.toggleSideBarChange.emit(this.toggleSideBar);
   }
 }

@@ -13,13 +13,8 @@ html {
   text-rendering: optimizeLegibility;
 }
 
-.row {
-  max-width: 1140px;
-  margin: 0 auto;
-}
-
 body {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../images/main.jpg);
+  /*background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../images/main.jpg);*/
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -113,6 +108,15 @@ h1{
   border-bottom: 2px solid #135b8d;
 }
 
+.main-nav li a:link,
+.main-nav li a:visited {
+  font-size: 90%;
+}
+
+.login-container {
+  position: relative;
+}
+
 .login-box {
   width: 320px;
   height: 270px;
@@ -122,3 +126,136 @@ h1{
   padding: 25px 30px 30px;
   margin: auto;
 }
+
+
+.login-fields-container {
+  top: 5% !important;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-family: "san-regular";
+  width: 320px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.main-fields-container {
+  position: relative;
+  width: 320px;
+  height: 295px;
+  margin-top: 140px;
+}
+
+.login-cont-buttons {
+  font-family: "san-semibold";
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-inputs {
+  width: 320px;
+  height: 270px;
+  background-color: #fff;
+  margin-top: 20px;
+  border-radius: 2px;
+  padding: 25px 30px 30px;
+  position: relative;
+}
+
+.forgot-username-password-box {
+  height: 210px;
+}
+
+.login-header {
+  min-width: 1280px;
+  background: #142535;
+  box-shadow: 0 1px 5px #000;
+  height: 39px;
+  width: 100%;
+  padding-left: 15px;
+}
+
+.login-inputs input {
+  border: 0;
+  border-bottom: 2px solid rgba(63, 63, 63, 0.65);
+  margin-bottom: 10px;
+  outline: none;
+  letter-spacing: 2px;
+  font-size: 80%;
+  width: 100%;
+  font-weight: 100;
+}
+
+.login-inputs a {
+  float: right;
+  font-size: 55%;
+  color: #142535;
+  border-bottom: 0;
+}
+
+.login-cont-buttons a:first-of-type:link,
+.login-cont-buttons a:first-of-type:visited {
+  border-bottom: 2px solid #135b8d;
+}
+
+.login-inputs div {
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.login-inputs button,
+.login-inputs input[type=submit]
+{
+  text-align: center;
+  line-height: 36px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 20px;
+  width: 260px;
+  height: 40px;
+  border-radius: 2px;
+  font-family: "san-regular";
+  color: #fff;
+  background-color: #142535;
+}
+
+.small-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 39px;
+}
+
+.logo-text {
+  color: #ebebeb;
+  position: absolute;
+  display: inline;
+  top: 6px;
+  left: 50px;
+}
+
+.login-inputs .error-msg {
+  font-size: 55%;
+  color: rgba(255, 0, 0, 0.9);
+}
+
+.error-msgs {
+  line-height: 1;
+}
+
+.login-inputs .success-msg,
+.login-inputs .password-success-msg {
+  color: rgba(0, 255, 51, 0.9);
+}
+
+.login-inputs .success-msg {
+  font-size: 55%;
+}
+
+.login-inputs .password-success-msg {
+  font-size: 98%;
+}
+

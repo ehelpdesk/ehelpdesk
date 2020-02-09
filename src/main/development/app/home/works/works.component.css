@@ -3,7 +3,7 @@
 /* ----------------------------------------------- */
 
 .section-steps {
-  background-color: #f4f4f4;
+  background-color: #030011;
 }
 
 .steps-box {
@@ -23,7 +23,8 @@
 }
 
 .app-screen {
-  width: 40%;
+  width: 79%;
+  height: 86%
 }
 
 .works-step {
@@ -45,7 +46,7 @@
   text-align: center;
   margin-right: 25px;
   float: left;
-  padding: 5px;
+  padding: 2px;
 }
 
 .btn-app:link,

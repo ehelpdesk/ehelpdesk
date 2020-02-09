@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'qf-footer',
+  selector: 'eh-footer',
   templateUrl: './footer.component.html',
   styles: []
 })

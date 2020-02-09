@@ -15,7 +15,7 @@ import { EventManager } from 'app/shared';
 import { ParseLinks } from 'app/shared/service/parse-links.service';
 
 @Component({
-    selector: 'qf-admin-mgmt',
+    selector: 'eh-admin-mgmt',
     templateUrl: './admin-management.component.html'
 })
 export class AdminManagementComponent implements OnInit, OnDestroy {

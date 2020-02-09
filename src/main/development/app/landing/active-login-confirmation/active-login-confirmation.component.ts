@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'qf-active-login-confirmation',
+  selector: 'eh-active-login-confirmation',
   templateUrl: './active-login-confirmation.component.html',
   styles: []
 })

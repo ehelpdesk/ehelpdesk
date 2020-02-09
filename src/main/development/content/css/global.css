@@ -5,6 +5,7 @@
 @import './contact-us.css';
 @import './footer.css';
 @import './loader.css';
+@import './queries.css';
 
 .btn img{
   width: 100%;

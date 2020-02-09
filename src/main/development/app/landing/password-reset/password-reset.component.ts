@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {PasswordResetFinishService} from 'app/landing/password-reset/password-reset-finish.service';
 
 @Component({
-  selector: 'qf-password-reset-end',
+  selector: 'eh-password-reset-end',
   templateUrl: './password-reset.component.html',
   styles: []
 })

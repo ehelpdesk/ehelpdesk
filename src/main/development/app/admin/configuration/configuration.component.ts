@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfigurationService } from './configuration.service';
 
 @Component({
-    selector: 'qf-configuration',
+    selector: 'eh-configuration',
     templateUrl: './configuration.component.html'
 })
 export class ConfigurationComponent implements OnInit {

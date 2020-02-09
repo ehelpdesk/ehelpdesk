@@ -98,3 +98,60 @@
     position: relative;
   }
 }
+
+
+.sidebar {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  transition: .3s;
+  transition-timing-function: cubic-bezier(.01,1.04,.85,1);
+  background-color: #135b8d;
+  color: #FFFFFF;
+}
+
+.position-relative {
+  position: relative !important;
+}
+
+.page-wrapper {
+  display: flex;
+}
+
+.main-menu {
+  display: none;
+  flex-direction: column;
+  min-width: inherit;
+  max-width: 270px!important;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.hamburger-btn, .hamburger-btn:active {
+  background-color: #135b8d !important;
+  border-color: #135b8d !important;
+}
+
+.side-bar-contents {
+  display: none;
+}
+
+@media screen and (max-width: 1090px) {
+  .nav-bar {
+    display: none;
+  }
+
+  .side-bar-contents {
+    display: flex;
+  }
+
+  .sidebar-logo {
+    height: 39px;
+    width: 39px;
+  }
+}
+
+.dropdown-item-dark {
+  padding: 6px;
+  border: 1px solid #273f50
+}

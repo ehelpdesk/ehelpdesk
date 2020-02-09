@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertService } from 'app/shared/service/alert.service';
 
 @Component({
-    selector: 'qf-alert',
+    selector: 'eh-alert',
     template: `
         <div class="alerts" role="alert">
             <div *ngFor="let alert of alerts" [ngClass]="setClasses(alert)">

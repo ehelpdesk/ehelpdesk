@@ -1,7 +1,7 @@
 package com.crm.ehelpdesk.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.crm.ehelpdesk.config.constants.Constants;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
@@ -23,259 +23,295 @@ import java.util.Set;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractAuditingEntity implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @NotNull
-  @Pattern(regexp = Constants.LOGIN_REGEX)
-  @Size(min = 1, max = 50)
-  @Column(length = 50, unique = true, nullable = false)
-  private String login;
+    @NotNull
+    @Pattern(regexp = Constants.LOGIN_REGEX)
+    @Size(min = 1, max = 50)
+    @Column(length = 50, unique = true, nullable = false)
+    private String login;
 
-  @JsonIgnore
-  @NotNull
-  @Size(min = 60, max = 60)
-  @Column(name = "password_hash", length = 60, nullable = false)
-  private String password;
+    @JsonIgnore
+    @NotNull
+    @Size(min = 60, max = 60)
+    @Column(name = "password_hash", length = 60, nullable = false)
+    private String password;
 
-  @Size(max = 50)
-  @Column(name = "first_name", length = 50)
-  private String firstName;
+    @Size(max = 50)
+    @Column(name = "first_name", length = 50)
+    private String firstName;
 
-  @Size(max = 50)
-  @Column(name = "last_name", length = 50)
-  private String lastName;
+    @Size(max = 50)
+    @Column(name = "last_name", length = 50)
+    private String lastName;
 
-  @Email
-  @Size(min = 5, max = 254)
-  @Column(length = 254, unique = true)
-  private String email;
+    @Email
+    @Size(min = 5, max = 254)
+    @Column(length = 254, unique = true)
+    private String email;
 
-  @NotNull
-  @Column(nullable = false)
-  private boolean activated = false;
+    @NotNull
+    @Column(nullable = false)
+    private boolean activated = false;
 
-  @NotNull
-  @Column(nullable = false)
-  private boolean activeLogin = false;
+    @NotNull
+    @Column(nullable = false)
+    private boolean activeLogin = false;
 
-  @Size(min = 2, max = 10)
-  @Column(name = "lang_key", length = 10)
-  private String langKey;
+    @Size(min = 2, max = 10)
+    @Column(name = "lang_key", length = 10)
+    private String langKey;
 
-  @Size(max = 256)
-  @Column(name = "image_url", length = 256)
-  private String imageUrl;
+    @Size(max = 256)
+    @Column(name = "image_url", length = 256)
+    private String imageUrl;
 
-  @Size(max = 20)
-  @Column(name = "activation_key", length = 20)
-  @JsonIgnore
-  private String activationKey;
+    @Size(max = 20)
+    @Column(name = "activation_key", length = 20)
+    @JsonIgnore
+    private String activationKey;
 
-  @Size(max = 20)
-  @Column(name = "reset_key", length = 20)
-  @JsonIgnore
-  private String resetKey;
+    @Size(max = 20)
+    @Column(name = "reset_key", length = 20)
+    @JsonIgnore
+    private String resetKey;
 
-  @Column(name = "reset_date")
-  private Instant resetDate = null;
+    @Column(name = "reset_date")
+    private Instant resetDate = null;
 
-  @NotNull
-  @Column(name = "owner")
-  private String owner;
+    @NotNull
+    @Column(name = "owner")
+    private String owner;
 
-  @JsonIgnore
-  @OneToOne
-  @JoinTable(
-    name = "user_authority",
-    joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
-  @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-  @BatchSize(size = 20)
-  private Authority authorities;
+    @JsonIgnore
+    @OneToOne
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @BatchSize(size = 20)
+    private Authority authorities;
 
-  @JsonIgnore
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-  @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-  private Set<PersistentToken> persistentTokens = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<PersistentToken> persistentTokens = new HashSet<>();
 
-  @JsonIgnore
-  @OneToOne
-  @JoinColumn(name = "owner", updatable = false, insertable = false, referencedColumnName = "login")
-  private User ownerDetails;
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "owner", updatable = false, insertable = false, referencedColumnName = "login")
+    private User ownerDetails;
 
-  private transient String otp;
+    @NotNull
+    @Column(nullable = false)
+    private boolean mobileAccess = false;
 
-  public Long getId() {
-    return id;
-  }
+    @NotNull
+    @Column(nullable = false)
+    private boolean otpCheck = false;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    @NotNull
+    @Column(nullable = false, name = "user_creation_limit")
+    private Long userCreationLimit = 0L;
 
-  public String getLogin() {
-    return login;
-  }
+    private transient String otp;
 
-  public void setLogin(String login) {
-    this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getImageUrl() {
-    return imageUrl;
-  }
-
-  public void setImageUrl(String imageUrl) {
-    this.imageUrl = imageUrl;
-  }
-
-  public boolean getActivated() {
-    return activated;
-  }
-
-  public void setActivated(boolean activated) {
-    this.activated = activated;
-  }
-
-  public boolean isActiveLogin() {
-    return activeLogin;
-  }
-
-  public void setActiveLogin(boolean activeLogin) {
-    this.activeLogin = activeLogin;
-  }
-
-  public String getActivationKey() {
-    return activationKey;
-  }
-
-  public void setActivationKey(String activationKey) {
-    this.activationKey = activationKey;
-  }
-
-  public String getResetKey() {
-    return resetKey;
-  }
-
-  public void setResetKey(String resetKey) {
-    this.resetKey = resetKey;
-  }
-
-  public Instant getResetDate() {
-    return resetDate;
-  }
-
-  public void setResetDate(Instant resetDate) {
-    this.resetDate = resetDate;
-  }
-
-  public String getLangKey() {
-    return langKey;
-  }
-
-  public void setLangKey(String langKey) {
-    this.langKey = langKey;
-  }
-
-  public Authority getAuthorities() {
-    return authorities;
-  }
-
-  public void setAuthorities(Authority authorities) {
-    this.authorities = authorities;
-  }
-
-  public Set<PersistentToken> getPersistentTokens() {
-    return persistentTokens;
-  }
-
-  public void setPersistentTokens(Set<PersistentToken> persistentTokens) {
-    this.persistentTokens = persistentTokens;
-  }
-
-  public String getOwner() {
-    return owner;
-  }
-
-  public void setOwner(String owner) {
-    this.owner = owner;
-  }
-
-  public User getOwnerDetails() {
-    return ownerDetails;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public Long getId() {
+        return id;
     }
-    if (!(o instanceof User)) {
-      return false;
+
+    public void setId(Long id) {
+        this.id = id;
     }
-    return id != null && id.equals(((User) o).id);
-  }
 
-  @Override
-  public int hashCode() {
-    return 31;
-  }
+    public String getLogin() {
+        return login;
+    }
 
-  @Override
-  public String toString() {
-    return "User{" +
-      "login='" + login + '\'' +
-      ", firstName='" + firstName + '\'' +
-      ", lastName='" + lastName + '\'' +
-      ", email='" + email + '\'' +
-      ", imageUrl='" + imageUrl + '\'' +
-      ", activated='" + activated + '\'' +
-      ", langKey='" + langKey + '\'' +
-      ", activationKey='" + activationKey + '\'' +
-      "}";
-  }
+    public void setLogin(String login) {
+        this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
+    }
 
-  public String getOtp() {
-    return otp;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public void setOtp(String otp) {
-    this.otp = otp;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public boolean getActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
+    public boolean isActiveLogin() {
+        return activeLogin;
+    }
+
+    public void setActiveLogin(boolean activeLogin) {
+        this.activeLogin = activeLogin;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
+    }
+
+    public String getResetKey() {
+        return resetKey;
+    }
+
+    public void setResetKey(String resetKey) {
+        this.resetKey = resetKey;
+    }
+
+    public Instant getResetDate() {
+        return resetDate;
+    }
+
+    public void setResetDate(Instant resetDate) {
+        this.resetDate = resetDate;
+    }
+
+    public String getLangKey() {
+        return langKey;
+    }
+
+    public void setLangKey(String langKey) {
+        this.langKey = langKey;
+    }
+
+    public Authority getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Authority authorities) {
+        this.authorities = authorities;
+    }
+
+    public Set<PersistentToken> getPersistentTokens() {
+        return persistentTokens;
+    }
+
+    public void setPersistentTokens(Set<PersistentToken> persistentTokens) {
+        this.persistentTokens = persistentTokens;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public User getOwnerDetails() {
+        return ownerDetails;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        return id != null && id.equals(((User) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", activated='" + activated + '\'' +
+                ", langKey='" + langKey + '\'' +
+                ", activationKey='" + activationKey + '\'' +
+                "}";
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public boolean hasMobileAccess() {
+        return mobileAccess;
+    }
+
+    public void setMobileAccess(boolean mobileAccess) {
+        this.mobileAccess = mobileAccess;
+    }
+
+    public boolean isOtpCheck() {
+        return otpCheck;
+    }
+
+    public void setOtpCheck(boolean otpCheck) {
+        this.otpCheck = otpCheck;
+    }
+
+    public Long getUserCreationLimit() {
+        return userCreationLimit;
+    }
+
+    public void setUserCreationLimit(Long userCreationLimit) {
+        this.userCreationLimit = userCreationLimit;
+    }
 }

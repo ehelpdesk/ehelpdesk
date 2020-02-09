@@ -1,9 +1,36 @@
-<div>
-  <!--<qf-navbar></qf-navbar>-->
-  <div>
-    <qf-loader></qf-loader>
-    <div class="dashboard-container pt-3">
-      <router-outlet></router-outlet>
+<div class="page-wrapper">
+    <div class="sidebar d-xl-none position-relative" style="min-width: 175px; min-height: 700px" *ngIf="toggleSideBar"
+         ehOutsideClick (outsideClick)="closeSideBar()" ignoreIds="sidebar-toggle,sidebar-toggle-icon">
+        <div class="main-menu dividers d-xl-none" style="display: block;">
+            <div class="top-section">
+                <div class="dropdown-item-dark dropright-caret-icon"><a href="javascript:void(0)"
+                                                                        routerLink="/dashboard">Home</a></div>
+                <div class="dropdown-item-dark dropright-caret-icon"><a href="javascript:void(0)"
+                                                                        routerLink="mainQueryfierEntry">Raise a
+                    complaint</a></div>
+                <ng-container *ngIf="role==='ROLE_ADMIN' || role === 'ROLE_SUPER_ADMIN'">
+                    <!--<div class="dropdown-item-dark dropright-caret-icon">
+                      <a href="javascript:void(0)">Administration</a></diva>-->
+                    <div class="dropdown-item-dark dropright-caret-icon"><a href="javascript:void(0)"
+                                                                            routerLink="admin/admin-management">
+                        User management</a></div>
+                    <div class="dropdown-item-dark dropright-caret-icon"><a href="javascript:void(0)"
+                                                                            routerLink="myAccount/changePassword">
+                        Change Password</a></div>
+                </ng-container>
+                <!--<div class="dropdown-item-dark dropright-caret-icon">Administration</div>-->
+                <div class="dropdown-item-dark dropright-caret-icon"><a href="javascript:void(0)"
+                                                                        (click)="logout()">Logout</a></div>
+            </div>
+        </div>
     </div>
-  </div>
+    <div class="w-100">
+        <eh-navbar [(toggleSideBar)]="toggleSideBar"></eh-navbar>
+        <div>
+            <eh-loader></eh-loader>
+            <div class="dashboard-container pt-3">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
 </div>

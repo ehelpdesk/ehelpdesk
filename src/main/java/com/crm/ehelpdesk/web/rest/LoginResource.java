@@ -20,7 +20,7 @@ public class LoginResource {
   }
 
   @PostMapping("/verifyCredentials")
-  public boolean isValidCredentials(@RequestBody Map<String, Object> credentials) {
+  public Map<String, Object> isValidCredentials(@RequestBody Map<String, Object> credentials) {
     return loginService.isValidCredentials(credentials);
   }
 

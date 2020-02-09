@@ -8,7 +8,7 @@ import {EventManager, EventManagerConstants} from 'app/shared';
 import {StateStorageService} from 'app/core/auth/state-storage.service';
 
 @Component({
-  selector: 'qf-confirm-otp',
+  selector: 'eh-confirm-otp',
   templateUrl: './confirm-otp.component.html',
   styles: []
 })

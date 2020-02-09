@@ -8,7 +8,7 @@ import {filter} from 'rxjs/operators';
 import {ForgotUsernamePasswordService} from 'app/landing/fortgot-username-password/fortgot-username-password.service';
 
 @Component({
-  selector: 'qf-forgot-username-password',
+  selector: 'eh-forgot-username-password',
   templateUrl: './forgot-username-password.component.html',
   styles: []
 })

@@ -2,7 +2,7 @@ import { Component, OnDestroy, ChangeDetectorRef  } from '@angular/core';
 import {EventManager} from 'app/shared/service/event-manager.service';
 
 @Component({
-  selector: 'qf-loading-screen',
+  selector: 'eh-loading-screen',
   templateUrl: './loadingScreen.component.html',
   styles: []
 })

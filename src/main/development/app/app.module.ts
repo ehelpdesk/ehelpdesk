@@ -16,7 +16,7 @@ import {ErrorHandlerInterceptor} from 'app/blocks/interceptor/errorhandler.inter
   imports: [
     BrowserModule,
     IcsAppRoutingModule,
-    NgxWebstorageModule.forRoot({prefix: 'qf-ehelpdesk', separator: '-'}),
+    NgxWebstorageModule.forRoot({prefix: 'eh-ehelpdesk', separator: '-'}),
     SharedModule,
     LandingModule,
     DashboardModule,

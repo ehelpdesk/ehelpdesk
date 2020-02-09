@@ -1,6 +1,6 @@
-import { Account } from 'app/model/account.model';
+import {Account} from 'app/model/account.model';
 
-import { SERVER_API_URL } from 'app/app.constants';
+import {SERVER_API_URL} from 'app/app.constants';
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {SessionStorageService} from 'ngx-webstorage';
@@ -14,7 +14,8 @@ export class AccountService {
     private authenticationState = new Subject<any>();
     private accountCache$: Observable<Account>;
 
-    constructor(private sessionStorage: SessionStorageService, private http: HttpClient) {}
+    constructor(private sessionStorage: SessionStorageService, private http: HttpClient) {
+    }
 
     fetch(): Observable<Account> {
         return this.http.get<Account>(SERVER_API_URL + 'api/account');
@@ -89,6 +90,6 @@ export class AccountService {
     }
 
     isLoginActive(): any {
-      return this.http.get('api/isLoginActive');
-}
+        return this.http.get('api/isLoginActive');
+    }
 }

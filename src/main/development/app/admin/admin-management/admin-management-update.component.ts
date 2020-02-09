@@ -7,7 +7,7 @@ import {AccountService} from 'app/core/auth/account.service';
 import {MasterService} from 'app/shared/service/master.service';
 
 @Component({
-  selector: 'qf-admin-mgmt-update',
+  selector: 'eh-admin-mgmt-update',
   templateUrl: './admin-management-update.component.html'
 })
 export class AdminManagementUpdateComponent implements OnInit {

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from 'app/model/user.model';
 
 @Component({
-    selector: 'qf-admin-mgmt-detail',
+    selector: 'eh-admin-mgmt-detail',
     templateUrl: './admin-management-detail.component.html'
 })
 export class AdminManagementDetailComponent implements OnInit {

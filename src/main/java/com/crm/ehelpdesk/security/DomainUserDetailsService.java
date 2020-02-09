@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @Component("userDetailsService")
 public class DomainUserDetailsService implements UserDetailsService {
@@ -38,22 +39,25 @@ public class DomainUserDetailsService implements UserDetailsService {
   public UserDetails loadUserByUsername(final String loginElement) {
     String[] loginElements = loginElement.split("\\|\\|\\|");
     final String login = loginElements[0];
-    final String otp = loginElements[1];
-    String userOtp = cacheService.getUserOtp(login);
-    log.debug("Authenticating {}", login);
-    if (!StringUtils.equals(otp, userOtp)) {
-      throw new UsernameNotFoundException("OTP for the user " + login + " is invalid");
+    Optional<User> userWithAuthorities = userRepository.findOneByLogin(login);
+    if(userWithAuthorities.isPresent() && userWithAuthorities.get().isOtpCheck()) {
+      final String otp = loginElements[1];
+      String userOtp = cacheService.getUserOtp(login);
+      log.debug("Authenticating {}", login);
+      if (!StringUtils.equals(otp, userOtp)) {
+        throw new UsernameNotFoundException("OTP for the user " + login + " is invalid");
+      }
     }
     if (new EmailValidator().isValid(login, null)) {
       return userRepository.findOneWithAuthoritiesByEmailIgnoreCase(login)
-        .map(user -> createSpringSecurityUser(login, user))
-        .orElseThrow(() -> new UsernameNotFoundException("User with email " + login + " was not found in the database"));
+              .map(user -> createSpringSecurityUser(login, user))
+              .orElseThrow(() -> new UsernameNotFoundException("User with email " + login + " was not found in the database"));
     }
 
     String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
     return userRepository.findOneWithAuthoritiesByLogin(lowercaseLogin)
-      .map(user -> createSpringSecurityUser(lowercaseLogin, user))
-      .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the database"));
+            .map(user -> createSpringSecurityUser(lowercaseLogin, user))
+            .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the database"));
 
   }
 
@@ -65,6 +69,7 @@ public class DomainUserDetailsService implements UserDetailsService {
       add(new SimpleGrantedAuthority(user.getAuthorities().getName()));
     }};
     return new org.springframework.security.core.userdetails.User(user.getLogin(),
-      user.getPassword(), grantedAuthorities);
+            user.getPassword(), grantedAuthorities);
   }
 }
+

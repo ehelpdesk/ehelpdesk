@@ -5,7 +5,7 @@ import { UserService } from 'app/model/user.service';
 import { EventManager } from 'app/shared';
 
 @Component({
-    selector: 'qf-admin-mgmt-delete-dialog',
+    selector: 'eh-admin-mgmt-delete-dialog',
     templateUrl: './admin-management-delete-dialog.component.html'
 })
 export class AdminManagementDeleteDialogComponent {

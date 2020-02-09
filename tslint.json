@@ -107,8 +107,8 @@
       "named": "never"
     }],
 
-    "directive-selector": [true, "attribute", "qf", "camelCase"],
-    "component-selector": [true, "element", "qf", "kebab-case"],
+    "directive-selector": [true, "attribute", "eh", "camelCase"],
+    "component-selector": [true, "element", "eh", "kebab-case"],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,

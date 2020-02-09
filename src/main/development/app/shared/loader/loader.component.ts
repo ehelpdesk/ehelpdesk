@@ -3,7 +3,7 @@ import {EventManager} from 'app/shared';
 import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'qf-loader',
+  selector: 'eh-loader',
   templateUrl: './loader.component.html',
   styles: []
 })

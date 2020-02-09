@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'qf-contact-us',
+  selector: 'eh-contact-us',
   templateUrl: './contact-us.component.html',
   styles: []
 })

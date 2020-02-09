@@ -12,12 +12,12 @@
           "inlineStyle": true,
           "inlineTemplate": false,
           "skipTests": false,
-          "prefix": "qf",
+          "prefix": "eh",
           "styleExt": "css"
         },
         "@schematics/angular:directive": {
           "skipTests": false,
-          "prefix": "qf"
+          "prefix": "eh"
         },
         "@schematics/angular:guard": {
           "skipTests": false
@@ -29,7 +29,7 @@
           "skipTests": false
         }
       },
-      "prefix": "qf",
+      "prefix": "eh",
       "architect": {}
     }
   },
