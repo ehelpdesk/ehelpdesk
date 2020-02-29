@@ -36,18 +36,7 @@ public class DomainUserDetailsService implements UserDetailsService {
 
   @Override
   @Transactional
-  public UserDetails loadUserByUsername(final String loginElement) {
-    String[] loginElements = loginElement.split("\\|\\|\\|");
-    final String login = loginElements[0];
-    Optional<User> userWithAuthorities = userRepository.findOneByLogin(login);
-    if(userWithAuthorities.isPresent() && userWithAuthorities.get().isOtpCheck()) {
-      final String otp = loginElements[1];
-      String userOtp = cacheService.getUserOtp(login);
-      log.debug("Authenticating {}", login);
-      if (!StringUtils.equals(otp, userOtp)) {
-        throw new UsernameNotFoundException("OTP for the user " + login + " is invalid");
-      }
-    }
+  public UserDetails loadUserByUsername(final String login) {
     if (new EmailValidator().isValid(login, null)) {
       return userRepository.findOneWithAuthoritiesByEmailIgnoreCase(login)
               .map(user -> createSpringSecurityUser(login, user))

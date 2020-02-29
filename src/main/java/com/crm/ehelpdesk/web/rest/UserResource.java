@@ -7,14 +7,11 @@ import com.crm.ehelpdesk.config.util.PaginationUtil;
 import com.crm.ehelpdesk.config.util.ResponseUtil;
 import com.crm.ehelpdesk.dao.repository.UserRepository;
 import com.crm.ehelpdesk.domain.User;
-import com.crm.ehelpdesk.dto.AvailableStatesDTO;
 import com.crm.ehelpdesk.dto.UserDTO;
 import com.crm.ehelpdesk.exception.BadRequestAlertException;
 import com.crm.ehelpdesk.exception.EmailAlreadyUsedException;
 import com.crm.ehelpdesk.exception.LoginAlreadyUsedException;
-import com.crm.ehelpdesk.exception.OwnerNotFoundException;
 import com.crm.ehelpdesk.web.service.MailService;
-import com.crm.ehelpdesk.web.service.MasterService;
 import com.crm.ehelpdesk.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,42 +46,35 @@ public class UserResource {
 
   private final MailService mailService;
 
-  private final MasterService masterService;
-
-  public UserResource(UserService userService, UserRepository userRepository, MailService mailService, MasterService masterService) {
+  public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
     this.userService = userService;
     this.userRepository = userRepository;
     this.mailService = mailService;
-    this.masterService = masterService;
   }
 
   @PostMapping("/users")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\") or hasRole(\"" + AuthoritiesConstants.SUPER_ADMIN + "\")")
+  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\") or hasRole(\"" + AuthoritiesConstants.MANAGER + "\")")
   public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO) throws URISyntaxException {
     log.debug("REST request to save User : {}", userDTO);
 
     if (userDTO.getId() != null) {
       throw new BadRequestAlertException("A new user cannot already have an ID", "userManagement", "idexists");
+      // Lowercase the user login before comparing with database
     } else if (userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).isPresent()) {
       throw new LoginAlreadyUsedException();
     } else if (userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {
       throw new EmailAlreadyUsedException();
-    } else if (userRepository.findOneByLogin(userDTO.getOwner().toLowerCase()).isPresent()) {
+    } else {
       User newUser = userService.createUser(userDTO);
-      if (AuthoritiesConstants.ADMIN.equals(userDTO.getAuthority())) {
-        masterService.createDBAccessDetails(userDTO.getAccessibleStates(), newUser.getId());
-      }
       mailService.sendCreationEmail(newUser);
       return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
-        .headers(HeaderUtil.createAlert(applicationName, "userManagement.created", newUser.getLogin()))
-        .body(newUser);
-    } else {
-      throw new OwnerNotFoundException();
+              .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin(), ""))
+              .body(newUser);
     }
   }
 
   @PutMapping("/users")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\") or hasRole(\"" + AuthoritiesConstants.SUPER_ADMIN + "\")")
+  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\") or hasRole(\"" + AuthoritiesConstants.MANAGER + "\")")
   public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO) {
     log.debug("REST request to update User : {}", userDTO);
     Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
@@ -95,20 +85,14 @@ public class UserResource {
     if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
       throw new LoginAlreadyUsedException();
     }
-    if (userRepository.findOneByLogin(userDTO.getOwner().toLowerCase()).isPresent()) {
-      Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
-      if (AuthoritiesConstants.ADMIN.equals(userDTO.getAuthority()) && updatedUser.isPresent()) {
-        masterService.updateDBAccessDetails(userDTO.getAccessibleStates(), updatedUser.get().getId());
-      }
-      return ResponseUtil.wrapOrNotFound(updatedUser,
-        HeaderUtil.createAlert(applicationName, "userManagement.updated", userDTO.getLogin()));
-    } else {
-      throw new OwnerNotFoundException();
-    }
+    Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
+
+    return ResponseUtil.wrapOrNotFound(updatedUser,
+            HeaderUtil.createAlert("userManagement.updated", userDTO.getLogin(), ""));
   }
 
   @GetMapping("/users")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\") or hasRole(\"" + AuthoritiesConstants.SUPER_ADMIN + "\")")
+  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\") or hasRole(\"" + AuthoritiesConstants.MANAGER + "\")")
   public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageable) {
     final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
     HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
@@ -117,7 +101,7 @@ public class UserResource {
   }
 
   @GetMapping("/users/authorities")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\") or hasRole(\"" + AuthoritiesConstants.SUPER_ADMIN + "\")")
+  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\") or hasRole(\"" + AuthoritiesConstants.MANAGER + "\")")
   public List<String> getAuthorities() {
     return userService.getAuthorities();
   }
@@ -126,12 +110,11 @@ public class UserResource {
   public ResponseEntity<UserDTO> getUser(@PathVariable String login) {
     log.debug("REST request to get User : {}", login);
     Optional<User> user = userService.getUserWithAuthoritiesByLogin(login);
-    List<AvailableStatesDTO> states = masterService.getAvailableStatesByUserId(user.get().getId());
-    return ResponseUtil.wrapOrNotFound(Optional.of(new UserDTO(user.get(), states)));
+    return ResponseUtil.wrapOrNotFound(Optional.of(new UserDTO(user.get())));
   }
 
   @DeleteMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
-  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\") or hasRole(\"" + AuthoritiesConstants.SUPER_ADMIN + "\")")
+  @PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\") or hasRole(\"" + AuthoritiesConstants.MANAGER + "\")")
   public ResponseEntity<Void> deleteUser(@PathVariable String login) {
     log.debug("REST request to delete User: {}", login);
     userService.deleteUser(login);

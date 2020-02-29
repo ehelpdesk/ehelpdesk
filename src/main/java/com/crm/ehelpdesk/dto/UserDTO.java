@@ -51,41 +51,33 @@ public class UserDTO {
 
     private String authority;
 
-    private String owner;
-
-    private Set<AvailableStatesDTO> accessibleStates;
-
     public UserDTO() {
         // Empty constructor needed for Jackson.
     }
 
-    public UserDTO(User user, List<AvailableStatesDTO> accessibleStates) {
-      setUserDto(user, accessibleStates);
+    public UserDTO(CustomerDTO customerDTO) {
+        this.login = customerDTO.getUsername();
+        this.firstName = customerDTO.getFirstName();
+        this.lastName = customerDTO.getLastName();
+        this.activated = true;
+        this.email = customerDTO.getEmail();
     }
 
-  private void setUserDto(User user, List<AvailableStatesDTO> accessibleStates) {
-    this.id = user.getId();
-    this.login = user.getLogin();
-    this.firstName = user.getFirstName();
-    this.lastName = user.getLastName();
-    this.email = user.getEmail();
-    this.activated = user.getActivated();
-    this.imageUrl = user.getImageUrl();
-    this.langKey = user.getLangKey();
-    this.createdBy = user.getCreatedBy();
-    this.createdDate = user.getCreatedDate();
-    this.lastModifiedBy = user.getLastModifiedBy();
-    this.lastModifiedDate = user.getLastModifiedDate();
-    this.authority = user.getAuthorities().getName();
-    this.owner = user.getOwner();
-    if (!CollectionUtils.isEmpty(accessibleStates)) {
-      this.accessibleStates = new HashSet<>(accessibleStates);
+    public UserDTO(User user) {
+        this.id = user.getId();
+        this.login = user.getLogin();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.activated = user.getActivated();
+        this.imageUrl = user.getImageUrl();
+        this.langKey = user.getLangKey();
+        this.createdBy = user.getCreatedBy();
+        this.createdDate = user.getCreatedDate();
+        this.lastModifiedBy = user.getLastModifiedBy();
+        this.lastModifiedDate = user.getLastModifiedDate();
+        this.authority = user.getAuthorities().getName();
     }
-  }
-
-  public UserDTO(User user) {
-    setUserDto(user, new ArrayList<>());
-  }
 
     public Long getId() {
         return id;
@@ -191,37 +183,21 @@ public class UserDTO {
         this.authority = authority;
     }
 
-  public String getOwner() {
-    return owner;
-  }
-
-  public void setOwner(String owner) {
-    this.owner = owner;
-  }
-
-  public Set<AvailableStatesDTO> getAccessibleStates() {
-    return accessibleStates;
-  }
-
-  public void setAccessibleStates(Set<AvailableStatesDTO> accessibleStates) {
-    this.accessibleStates = accessibleStates;
-  }
-
-  @Override
+    @Override
     public String toString() {
         return "UserDTO{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated=" + activated +
-            ", langKey='" + langKey + '\'' +
-            ", createdBy=" + createdBy +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            ", authority=" + authority +
-            "}";
+                "login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", activated=" + activated +
+                ", langKey='" + langKey + '\'' +
+                ", createdBy=" + createdBy +
+                ", createdDate=" + createdDate +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedDate=" + lastModifiedDate +
+                ", authority=" + authority +
+                "}";
     }
 }

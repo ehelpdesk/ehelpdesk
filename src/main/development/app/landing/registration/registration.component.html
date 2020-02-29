@@ -1,0 +1,66 @@
+<div class="login-container" [ngStyle]="{'margin-top':isProductCodeValidated ? '20px' : '140px' }">
+    <eh-alert-error></eh-alert-error>
+    <div class="login-cont-buttons">
+        <a href="">Register</a>
+        <a routerLink="/home">Home</a>
+    </div>
+    <div class="login-inputs login-dimensions" style="height: 200px" *ngIf="!isProductCodeValidated" >
+        <form class="form" role="form" (ngSubmit)="validateProductCode()" [formGroup]="registrationForm">
+            <div class="login-username">
+                <label for="productCode" class="sr-only">Product Code</label>
+                <input type="text" ehOnlyNumbers="true" name="productCode" id="productCode" placeholder="Product Code"
+                       formControlName="productCode" required autocomplete="off">
+            </div>
+            <div class="error-msg" *ngIf="isInvalidProductCode">
+                <strong>Invalid Product Code!</strong> Product code entered in invalid, please check the code and
+                enter again.
+            </div>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+    <div class="login-inputs register-dimensions" *ngIf="isProductCodeValidated" >
+        <form class="form" role="form" (ngSubmit)="register()" [formGroup]="registrationForm">
+            <div class="login-username">
+                <label for="username" class="sr-only">Username</label>
+                <input type="text" name="username" id="username" placeholder="Username"
+                       formControlName="username" required autocomplete="off">
+            </div>
+            <div class="login-password">
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" name="password" id="password" placeholder="Password"
+                       formControlName="password" required>
+            </div>
+            <div class="login-password">
+                <label for="confirmPassword" class="sr-only">Confirm Password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"
+                       formControlName="confirmPassword" required>
+            </div>
+            <div>
+                <label for="firstName" class="sr-only">First Name</label>
+                <input type="firstName" name="firstName" id="firstName" placeholder="First Name"
+                       formControlName="firstName" required>
+            </div>
+            <div>
+                <label for="lastName" class="sr-only">Last Name</label>
+                <input type="lastName" name="lastName" id="lastName" placeholder="Last Name"
+                       formControlName="lastName" required>
+            </div>
+            <div>
+                <label for="email" class="sr-only">Email</label>
+                <input type="email" name="email" id="email" placeholder="Email"
+                       formControlName="email" required>
+            </div>
+            <div>
+                <label for="mobileNumber" class="sr-only">Mobile Number</label>
+                <input type="mobileNumber" name="mobileNumber" id="mobileNumber" placeholder="Mobile Number"
+                       formControlName="mobileNumber" required>
+            </div>
+            <div>
+                <label for="address" class="sr-only">Address</label>
+                <input type="address" name="address" id="address" placeholder="Address"
+                       formControlName="address" required>
+            </div>
+            <button type="submit" style="margin-left: 37px;">Register</button>
+        </form>
+    </div>
+</div>

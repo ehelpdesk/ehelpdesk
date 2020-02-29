@@ -47,7 +47,7 @@ export class LoginComponent implements AfterViewInit, OnInit {
         });
     }
 
-    login() {
+    /*login() {
         const credentials = {
             username: this.loginForm.get('username').value,
             password: this.loginForm.get('password').value,
@@ -76,9 +76,14 @@ export class LoginComponent implements AfterViewInit, OnInit {
                     this.authenticationError = true;
                 }
             );
-    }
+    }*/
 
-    private processLogin(userCredentials) {
+    public login() {
+        const userCredentials = {
+            username: this.loginForm.get('username').value,
+            password: this.loginForm.get('password').value,
+            rememberMe: this.loginForm.get('rememberMe').value,
+        };
         this.eventManager.broadcast({name: EventManagerConstants.SHOW_LOADER, content: true});
         this.loginService
             .login(userCredentials)

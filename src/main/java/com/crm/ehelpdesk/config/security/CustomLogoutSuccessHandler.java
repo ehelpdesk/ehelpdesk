@@ -26,7 +26,6 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     String loginName = authentication.getName();
     if (loginName != null) {
       // cacheService.removeActiveLogin(loginName);
-      loginService.updateActiveLogin(loginName, false);
     }
     response.setStatus(HttpServletResponse.SC_OK);
   }

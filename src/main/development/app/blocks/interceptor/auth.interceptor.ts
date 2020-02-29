@@ -18,9 +18,9 @@ export class AuthInterceptor implements HttpInterceptor {
           if (err instanceof HttpErrorResponse) {
             if (err.status === 401) {
               const currentRoute = this.router.url;
-              if (currentRoute !== '/login' && currentRoute !== '/confirmOtp' && currentRoute.indexOf('forgotUsernamePassword') < 0) {
+              if (currentRoute !== '/landing/login' && currentRoute !== '/confirmOtp' && currentRoute.indexOf('forgotUsernamePassword') < 0) {
                 if (err.error && err.error.message && err.error.message.includes('Authentication failed')) {
-                  this.router.navigate(['/login']);
+                  this.router.navigate(['/landing/login']);
                 } else {
                   this.router.navigate(['/home']);
                 }
@@ -29,7 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
               const queryParams: NavigationExtras = {
                 queryParams: {'multipleLogin': 'true'}
               };
-              this.router.navigate(['/login'], queryParams);
+              this.router.navigate(['/landing/login'], queryParams);
             }
 
           }

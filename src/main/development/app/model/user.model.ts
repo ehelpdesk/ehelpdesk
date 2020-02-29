@@ -12,8 +12,6 @@ export interface IUser {
     lastModifiedBy?: string;
     lastModifiedDate?: Date;
     password?: string;
-    owner?: string;
-    accessibleStates?: any[];
 }
 
 export class User implements IUser {
@@ -30,9 +28,7 @@ export class User implements IUser {
         public createdDate?: Date,
         public lastModifiedBy?: string,
         public lastModifiedDate?: Date,
-        public password?: string,
-        public owner?: string,
-        public accessibleStates?: any[]
+        public password?: string
     ) {
         this.id = id ? id : null;
         this.login = login ? login : null;
@@ -47,7 +43,5 @@ export class User implements IUser {
         this.lastModifiedBy = lastModifiedBy ? lastModifiedBy : null;
         this.lastModifiedDate = lastModifiedDate ? lastModifiedDate : null;
         this.password = password ? password : null;
-        this.owner = owner ? owner : null;
-        this.accessibleStates = accessibleStates ? accessibleStates : null;
     }
 }

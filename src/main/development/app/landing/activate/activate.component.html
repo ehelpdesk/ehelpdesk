@@ -1,0 +1,16 @@
+<div class="login-container">
+    <!--<eh-alert-error></eh-alert-error>-->
+    <div class="login-cont-buttons">
+        <a href="">Activation</a>
+        <a routerLink="/landing/login">Login</a>
+    </div>
+    <div class="login-inputs login-dimensions" style="height: 200px">
+        <div class="alert alert-success" *ngIf="success">
+            <span><strong>Your user account has been activated.</strong> Please Login.</span>
+        </div>
+
+        <div class="alert alert-danger" *ngIf="error">
+            <strong>Your user could not be activated.</strong> Please use the registration form to sign up.
+        </div>
+    </div>
+</div>

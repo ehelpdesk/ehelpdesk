@@ -97,6 +97,6 @@ export class ConfirmOtpComponent implements OnInit {
   }
 
   navigateToLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/landing/login']);
   }
 }

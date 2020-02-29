@@ -58,10 +58,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(nullable = false)
     private boolean activated = false;
 
-    @NotNull
-    @Column(nullable = false)
-    private boolean activeLogin = false;
-
     @Size(min = 2, max = 10)
     @Column(name = "lang_key", length = 10)
     private String langKey;
@@ -83,10 +79,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
-    @NotNull
-    @Column(name = "owner")
-    private String owner;
-
     @JsonIgnore
     @OneToOne
     @JoinTable(
@@ -101,23 +93,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PersistentToken> persistentTokens = new HashSet<>();
-
-    @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "owner", updatable = false, insertable = false, referencedColumnName = "login")
-    private User ownerDetails;
-
-    @NotNull
-    @Column(nullable = false)
-    private boolean mobileAccess = false;
-
-    @NotNull
-    @Column(nullable = false)
-    private boolean otpCheck = false;
-
-    @NotNull
-    @Column(nullable = false, name = "user_creation_limit")
-    private Long userCreationLimit = 0L;
 
     private transient String otp;
 
@@ -185,14 +160,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.activated = activated;
     }
 
-    public boolean isActiveLogin() {
-        return activeLogin;
-    }
-
-    public void setActiveLogin(boolean activeLogin) {
-        this.activeLogin = activeLogin;
-    }
-
     public String getActivationKey() {
         return activationKey;
     }
@@ -241,18 +208,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.persistentTokens = persistentTokens;
     }
 
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public User getOwnerDetails() {
-        return ownerDetails;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -291,27 +246,4 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.otp = otp;
     }
 
-    public boolean hasMobileAccess() {
-        return mobileAccess;
-    }
-
-    public void setMobileAccess(boolean mobileAccess) {
-        this.mobileAccess = mobileAccess;
-    }
-
-    public boolean isOtpCheck() {
-        return otpCheck;
-    }
-
-    public void setOtpCheck(boolean otpCheck) {
-        this.otpCheck = otpCheck;
-    }
-
-    public Long getUserCreationLimit() {
-        return userCreationLimit;
-    }
-
-    public void setUserCreationLimit(Long userCreationLimit) {
-        this.userCreationLimit = userCreationLimit;
-    }
 }

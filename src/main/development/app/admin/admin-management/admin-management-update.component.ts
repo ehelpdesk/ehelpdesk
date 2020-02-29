@@ -4,7 +4,6 @@ import {ActivatedRoute} from '@angular/router';
 import {User} from 'app/model/user.model';
 import {UserService} from 'app/model/user.service';
 import {AccountService} from 'app/core/auth/account.service';
-import {MasterService} from 'app/shared/service/master.service';
 
 @Component({
   selector: 'eh-admin-mgmt-update',
@@ -25,18 +24,14 @@ export class AdminManagementUpdateComponent implements OnInit {
     lastName: ['', [Validators.maxLength(50)]],
     email: ['', [Validators.minLength(5), Validators.maxLength(254), Validators.email]],
     activated: [true],
-    langKey: [],
     authority: ['', Validators.required],
-    owner: [''],
-    accessibleStates: ['']
   });
   login: string;
 
   constructor(private userService: UserService
     , private route: ActivatedRoute
     , private fb: FormBuilder
-    , private accountService: AccountService
-    , private masterService: MasterService) {
+    , private accountService: AccountService) {
   }
 
   ngOnInit() {
@@ -52,12 +47,7 @@ export class AdminManagementUpdateComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.role = account.authority;
 
-      this.editForm.get(['owner']).setValue(account.login);
-      if (this.isCurrentUserNotSuperAdmin()) {
-        this.editForm.get(['owner']).disable();
-      }
     });
-    this.getAvailableStates();
   }
 
   private updateForm(user: User): void {
@@ -68,12 +58,8 @@ export class AdminManagementUpdateComponent implements OnInit {
       lastName: user.lastName,
       email: user.email,
       activated: user.activated,
-      langKey: user.langKey,
-      authority: user.authority,
-      owner: user.owner,
-      accessibleStates: user.accessibleStates
-  })
-    ;
+      authority: user.authority
+  });
   }
 
   previousState() {
@@ -96,10 +82,7 @@ export class AdminManagementUpdateComponent implements OnInit {
     user.lastName = this.editForm.get(['lastName']).value;
     user.email = this.editForm.get(['email']).value;
     user.activated = this.editForm.get(['activated']).value;
-    user.langKey = this.editForm.get(['langKey']).value;
     user.authority = this.editForm.get(['authority']).value;
-    user.owner = this.editForm.get(['owner']).value;
-    user.accessibleStates = this.editForm.get(['accessibleStates']).value;
   }
 
   private onSaveSuccess(result) {
@@ -115,19 +98,8 @@ export class AdminManagementUpdateComponent implements OnInit {
     return this.role !== 'ROLE_SUPER_ADMIN';
   }
 
-  getAvailableStates() {
-    this.masterService.getAvailableStates().subscribe(response => this.accessibleStates = response);
-  }
-
   private isAdminNotSelected() {
     return this.user.authority !== 'ROLE_ADMIN';
   }
 
-  isSelected(stateName: string) {
-    if (this.user.accessibleStates) {
-      this.user.accessibleStates.forEach(accessibleState => {
-        return accessibleState.name === stateName;
-      });
-    }
-  }
 }

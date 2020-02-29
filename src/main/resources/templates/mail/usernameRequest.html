@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+    <head>
+        <title th:text="#{email.username.title}">Queryfier Username request</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="shortcut icon" th:href="@{|${baseUrl}/favicon.ico|}" />
+    </head>
+    <body>
+        <p th:text="#{email.username.greeting(${user.firstName})}">
+            Dear
+        </p>
+        <p th:text="#{email.username.text1(${user.login})}">
+          Your Queryfier account username is :
+        </p>
+        <p>
+            <span th:text="#{email.reset.text2}">Regards, </span>
+            <br/>
+            <em th:text="#{email.signature}">Queryfier.</em>
+        </p>
+    </body>
+</html>

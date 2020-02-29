@@ -1,46 +1,31 @@
-<header class="login-header">
-  <div style="position: relative">
-    <img src="../../../content/images/ehelpdesk.png" alt="The logo" class="small-logo">
-    <h3 class="logo-text">
-      Ehelpdesk
-    </h3>
+<div class="login-container">
+  <div class="login-cont-buttons">
+    <a href="">Login</a>
+    <a routerLink="/home">Home</a>
   </div>
-</header>
-<div class="w-100">
-  <eh-loader></eh-loader>
-  <div class="login-fields-container">
-    <div class="main-fields-container">
-      <div class="login-container">
-        <div class="login-cont-buttons">
-          <a href="">Login</a>
-          <a routerLink="/home">Home</a>
-        </div>
-        <div class="login-inputs">
-          <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
-            <div class="login-username">
-              <label for="username" class="sr-only">Username</label>
-              <input type="text" name="username" id="username" placeholder="Username"
-                     formControlName="username" required>
-              <a [routerLink]="['/forgotUsernamePassword']" [queryParams]="{type: 'forgotUsername'}">Forgot
-                Username?</a>
-            </div>
-            <div class="login-password">
-              <label for="password" class="sr-only">Password</label>
-              <input type="password" name="password" id="password" placeholder="Password"
-                     formControlName="password" required>
-              <a [routerLink]="['/forgotUsernamePassword']" [queryParams]="{type: 'forgotPassword'}">Forgot
-                Password?</a>
-            </div>
-            <div class="error-msg" *ngIf="authenticationError">
-              <strong>Failed to sign in!</strong> Please check your credentials and try again.
-            </div>
-            <div class="error-msg" *ngIf="hasMultipleLogin">
-              <strong>Logged out!</strong> Looks like someone else logged in with same credentials.
-            </div>
-            <button type="submit">Login</button>
-          </form>
-        </div>
+  <div class="login-inputs login-dimensions">
+    <form class="form" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
+      <div class="login-username">
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" name="username" id="username" placeholder="Username"
+               formControlName="username" required>
+        <a [routerLink]="['/landing/forgotUsernamePassword']" [queryParams]="{type: 'forgotUsername'}">Forgot
+          Username?</a>
       </div>
-    </div>
+      <div class="login-password">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="password" id="password" placeholder="Password"
+               formControlName="password" required>
+        <a [routerLink]="['/landing/forgotUsernamePassword']" [queryParams]="{type: 'forgotPassword'}">Forgot
+          Password?</a>
+      </div>
+      <div class="error-msg" *ngIf="authenticationError">
+        <strong>Failed to sign in!</strong> Please check your credentials and try again.
+      </div>
+      <div class="error-msg" *ngIf="hasMultipleLogin">
+        <strong>Logged out!</strong> Looks like someone else logged in with same credentials.
+      </div>
+      <button type="submit">Login</button>
+    </form>
   </div>
 </div>

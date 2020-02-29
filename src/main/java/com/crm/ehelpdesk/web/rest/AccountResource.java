@@ -5,15 +5,13 @@ import com.crm.ehelpdesk.dao.repository.PersistentTokenRepository;
 import com.crm.ehelpdesk.dao.repository.UserRepository;
 import com.crm.ehelpdesk.domain.PersistentToken;
 import com.crm.ehelpdesk.domain.User;
-import com.crm.ehelpdesk.dto.KeyAndPasswordVM;
-import com.crm.ehelpdesk.dto.ManagedUserVM;
-import com.crm.ehelpdesk.dto.PasswordChangeDTO;
-import com.crm.ehelpdesk.dto.UserDTO;
+import com.crm.ehelpdesk.dto.*;
 import com.crm.ehelpdesk.exception.EmailAlreadyUsedException;
 import com.crm.ehelpdesk.exception.EmailNotFoundException;
 import com.crm.ehelpdesk.exception.InvalidPasswordException;
 import com.crm.ehelpdesk.security.SecurityUtils;
 import com.crm.ehelpdesk.web.service.MailService;
+import com.crm.ehelpdesk.web.service.ProductService;
 import com.crm.ehelpdesk.web.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -26,6 +24,7 @@ import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -48,12 +47,15 @@ public class AccountResource {
 
   private final PersistentTokenRepository persistentTokenRepository;
 
-  public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, PersistentTokenRepository persistentTokenRepository) {
+  private final ProductService productService;
+
+  public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, PersistentTokenRepository persistentTokenRepository, ProductService productService) {
 
     this.userRepository = userRepository;
     this.userService = userService;
     this.mailService = mailService;
     this.persistentTokenRepository = persistentTokenRepository;
+    this.productService = productService;
   }
 
   @GetMapping("/isLoginActive")
@@ -68,6 +70,17 @@ public class AccountResource {
       throw new InvalidPasswordException();
     }
     User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+    mailService.sendActivationEmail(user);
+  }
+
+  @PostMapping("/validateProductCode")
+  public ProductCodeDTO validateProductCode(@RequestBody Map<String, Object> productCode) {
+    return productService.validateProductCode((String) productCode.get("productCode")).orElse(null);
+  }
+
+  @PostMapping("/registerCustomer")
+  public void registerCustomer(@RequestBody CustomerDTO customerDTO) {
+    User user = userService.registerCustomer(customerDTO);
     mailService.sendActivationEmail(user);
   }
 

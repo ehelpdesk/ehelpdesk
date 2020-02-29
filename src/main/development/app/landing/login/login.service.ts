@@ -32,6 +32,6 @@ export class LoginService {
   }
 
   verifyCredentials(credentials: { password: any; rememberMe: any; username: any }) {
-    return this.http.post(`/api/verifyCredentials`, credentials);
+    return this.http.post(`/api/authentication`, credentials);
   }
 }

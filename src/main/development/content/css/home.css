@@ -17,7 +17,8 @@ body {
   /*background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../images/main.jpg);*/
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  /*height: 100vh;*/
+  min-height: 100vh;
 }
 
 h1{
@@ -115,6 +116,7 @@ h1{
 
 .login-container {
   position: relative;
+  margin-top: 140px;
 }
 
 .login-box {
@@ -134,16 +136,12 @@ h1{
   align-items: center;
   flex-direction: column;
   font-family: "san-regular";
-  width: 320px;
   margin: 0 auto;
   position: relative;
 }
 
 .main-fields-container {
   position: relative;
-  width: 320px;
-  height: 295px;
-  margin-top: 140px;
 }
 
 .login-cont-buttons {
@@ -156,13 +154,20 @@ h1{
 }
 
 .login-inputs {
-  width: 320px;
-  height: 270px;
   background-color: #fff;
   margin-top: 20px;
   border-radius: 2px;
   padding: 25px 30px 30px;
   position: relative;
+}
+
+.login-dimensions {
+  width: 320px;
+  height: 270px;
+}
+
+.register-dimensions {
+  width: 400px;
 }
 
 .forgot-username-password-box {

@@ -22,7 +22,6 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                       Authentication authentication)
     throws IOException, ServletException {
-    loginService.updateActiveLogin(authentication.getName(), true);
     loginService.removeUserOtp(authentication.getName());
     response.setStatus(HttpServletResponse.SC_OK);
   }

@@ -92,28 +92,16 @@
 
                 <div class="form-group">
                     <label>Profiles*</label>
-                    <select class="form-control" name="authority">
+                    <select class="form-control" name="authority" formControlName="authority">
                         <option *ngFor="let authority of authorities" [value]="authority">{{authority}}</option>
                     </select>
                   <div *ngIf="editForm.get('authority') && (editForm.get('authority').dirty || editForm.get('authority').touched)">
                     <small class="form-text text-danger"
-                           *ngIf="editForm.get('authority').errors.required">
+                           *ngIf="editForm.get('authority').errors && editForm.get('authority').errors.required">
                       This field is required.
                     </small>
                   </div>
                 </div>
-
-                <div class="form-group" [hidden]="isCurrentUserNotSuperAdmin()">
-                  <label>State Access</label>
-                  <select class="form-control" multiple name="state_access" formControlName="accessibleStates">
-                    <option *ngFor="let state of accessibleStates" [selected]="isSelected(state.name)" [value]="state">{{state.name}}</option>
-                  </select>
-                </div>
-
-              <div class="form-group">
-                <label class="form-control-label" for="owner">Owner*</label>
-                <input class="form-control" id="owner" name="owner" type="text" formControlName="owner">
-              </div>
             </div>
             <div>
                 <button type="button" class="btn btn-secondary" (click)="previousState()">

@@ -42,7 +42,7 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
 
   resetPassword() {
     if (this.success) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/landing/login']);
     } else {
       this.doNotMatch = null;
       this.error = null;
@@ -62,4 +62,7 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
     }
   }
 
+  navigateToLogin() {
+    this.router.navigate(['/landing/login']);
+  }
 }

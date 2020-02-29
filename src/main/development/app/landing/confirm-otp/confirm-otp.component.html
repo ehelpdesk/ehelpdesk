@@ -1,40 +1,25 @@
-<header class="login-header">
-  <div style="position: relative">
-    <img src="../../../content/images/ehelpdesk.png" alt="The logo" class="small-logo">
-    <h3 class="logo-text">
-      Ehelpdesk
-    </h3>
+<div class="login-container">
+  <div class="login-cont-buttons">
+    <a href="javascript:void(0)">Confirm OTP</a>
+    <a routerLink="/home">Home</a>
   </div>
-</header>
-<div class="w-100">
-  <eh-loader></eh-loader>
-  <div class="login-fields-container">
-    <div class="main-fields-container">
-      <div class="login-container">
-        <div class="login-cont-buttons">
-          <a href="javascript:void(0)">Confirm OTP</a>
-          <a routerLink="/home">Home</a>
-        </div>
-        <div class="login-inputs forgot-username-password-box">
-          <form class="form" role="form" (ngSubmit)="verifyOtp()" [formGroup]="otpForm">
-            <div class="login-username pb-2">
-              <label for="otp" class="sr-only">One Time Password</label>
-              <input type="text" name="otp" id="otp" placeholder="OTP"
-                     formControlName="otp" required>
-            </div>
-            <div class="error-msg pb-1 m-0" *ngIf="invalidOtp">
-              <strong>OTP is incorrect!</strong> Please enter correctly, or click on resend OTP new receive a new one.
-            </div>
-            <div class="error-msg pb-1 m-0" *ngIf="noUserCreds">
-              <strong>No User Credentials!</strong> Please login again.
-            </div>
-            <button type="submit">Verify OTP</button>
-            <div class="login-password">
-              <a href="javascript:void(0)" (click)="navigateToLogin()">Back to Login</a>
-            </div>
-          </form>
-        </div>
+  <div class="login-inputs login-dimensions forgot-username-password-box">
+    <form class="form" role="form" (ngSubmit)="verifyOtp()" [formGroup]="otpForm">
+      <div class="login-username pb-2">
+        <label for="otp" class="sr-only">One Time Password</label>
+        <input type="text" name="otp" id="otp" placeholder="OTP"
+               formControlName="otp" required>
       </div>
-    </div>
+      <div class="error-msg pb-1 m-0" *ngIf="invalidOtp">
+        <strong>OTP is incorrect!</strong> Please enter correctly, or click on resend OTP new receive a new one.
+      </div>
+      <div class="error-msg pb-1 m-0" *ngIf="noUserCreds">
+        <strong>No User Credentials!</strong> Please login again.
+      </div>
+      <button type="submit">Verify OTP</button>
+      <div class="login-password">
+        <a href="javascript:void(0)" (click)="navigateToLogin()">Back to Login</a>
+      </div>
+    </form>
   </div>
 </div>

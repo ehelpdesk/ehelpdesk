@@ -14,14 +14,4 @@ public class LoginResource {
     this.loginService = loginService;
   }
 
-  @GetMapping("/hasActiveLogin/{loginName}")
-  public boolean hasActiveLogin(@PathVariable String loginName) {
-    return loginService.hasActiveLogin(loginName);
-  }
-
-  @PostMapping("/verifyCredentials")
-  public Map<String, Object> isValidCredentials(@RequestBody Map<String, Object> credentials) {
-    return loginService.isValidCredentials(credentials);
-  }
-
 }

@@ -1,0 +1,7 @@
+.form-control, .btn {
+    font-size: 0.8rem;
+}
+
+.dashboard-container, .dashboard-container table {
+    font-size: 85%;
+}

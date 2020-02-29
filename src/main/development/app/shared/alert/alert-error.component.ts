@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Alert, AlertService } from 'app/shared/service/alert.service';
+import {Alert, AlertService, AlertType} from 'app/shared/service/alert.service';
 import { EventManager } from 'app/shared/service/event-manager.service';
 
 @Component({
@@ -18,11 +18,16 @@ import { EventManager } from 'app/shared/service/event-manager.service';
 export class AlertErrorComponent implements OnDestroy {
     alerts: any[];
     cleanHttpErrorListener: Subscription;
+    cleanHttpSuccessListener: Subscription;
     constructor(private alertService: AlertService, private eventManager: EventManager) {
         this.alerts = [];
 
+        this.cleanHttpSuccessListener = eventManager.subscribe('Ehelpdesk_httpSuccess', response => {
+            const successAlert: AlertType = 'success';
+            this.addErrorAlert(response.content, 'success', successAlert);
+        });
+
         this.cleanHttpErrorListener = eventManager.subscribe('Ehelpdesk_httpError', response => {
-          console.log('subscription invoked');
           let i;
             const httpErrorResponse = response.content;
             switch (httpErrorResponse.status) {
@@ -44,7 +49,7 @@ export class AlertErrorComponent implements OnDestroy {
                     });
                     if (errorHeader) {
                         const entityName = '';
-                        this.addErrorAlert(errorHeader, errorHeader, { entityName });
+                        this.addErrorAlert(errorHeader, errorHeader, {entityName}, 'danger');
                     } else if (httpErrorResponse.error !== '' && httpErrorResponse.error.fieldErrors) {
                         const fieldErrors = httpErrorResponse.error.fieldErrors;
                         for (i = 0; i < fieldErrors.length; i++) {
@@ -55,14 +60,10 @@ export class AlertErrorComponent implements OnDestroy {
                             // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
                             const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
                             const fieldName = '';
-                            this.addErrorAlert('Error on field "' + fieldName + '"', 'error.' + fieldError.message, { fieldName });
+                            this.addErrorAlert('Error on field "' + fieldName + '"', 'error.' + fieldError.message, {fieldName}, 'danger');
                         }
                     } else if (httpErrorResponse.error !== '' && httpErrorResponse.error.message) {
-                        this.addErrorAlert(
-                            httpErrorResponse.error.message,
-                            httpErrorResponse.error.message,
-                            httpErrorResponse.error.params
-                        );
+                        this.addErrorAlert(httpErrorResponse.error.message, httpErrorResponse.error.message, httpErrorResponse.error.params, 'danger');
                     } else {
                         this.addErrorAlert(httpErrorResponse.error);
                     }
@@ -94,13 +95,17 @@ export class AlertErrorComponent implements OnDestroy {
             this.eventManager.destroy(this.cleanHttpErrorListener);
             this.alerts = [];
         }
+        if (this.cleanHttpSuccessListener !== undefined && this.cleanHttpSuccessListener !== null) {
+            this.eventManager.destroy(this.cleanHttpSuccessListener);
+            this.alerts = [];
+        }
     }
 
-    addErrorAlert(message, key?, data?) {
+    addErrorAlert(message, key?, data?, type: AlertType = 'danger') {
         message = key && key !== null ? key : message;
 
         const newAlert: Alert = {
-            type: 'danger',
+            type,
             msg: message,
             params: data,
             timeout: 5000,
