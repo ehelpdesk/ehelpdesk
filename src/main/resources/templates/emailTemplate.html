@@ -25,7 +25,7 @@
     </style>
 </head>
 
-<title>Email Template</title>
+<title th:text="#{email.username.title}">E-Helpdesk Username request</title>
 
 <body style=" font-family: 'Roboto', sans-serif, Arial, Helvetica, sans-serif;
             font-size: 14px;
@@ -67,26 +67,31 @@
         </tr>
         <tr>
             <td>
-                <table style="padding:0px 30px; ">
+                <table style="padding:0px 30px; width: 100%;">
                     <tr>
                         <td>
-                            <table style="text-align: center;">
+                            <table style="text-align: center; width: 100%;">
                                 <!--[if mso]>
                                 <tr></tr>
                                 <![endif]-->
                                 <tr>
                                     <td style="text-align: left">
-                                        <p th:utext="${mailBody}"></p>
+                                        <p th:text="#{email.username.greeting(${user.firstName})}">
+                                            Dear
+                                        </p>
+                                        <p th:text="#{email.username.text1(${user.login})}">
+                                            Your E-Helpdesk account username is :
+                                        </p>
                                     </td>
                                 </tr>
-                                <tr th:if="${isForgotPassword}">
+                                <tr>
                                     <td>
                                         <!--[if mso]>
                                         <br/>
                                         <![endif]-->
                                         <p style="color:#363636; font-size: 15px;">
                                             <strong>Username: </strong><span
-                                                th:text="${username}"></span>
+                                                th:text="${user.login}"></span>
                                         </p>
                                         <div><!--[if mso]>
                                             <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
@@ -137,19 +142,7 @@
                             <table style="margin-top: 30px; color:#333">
                                 <tr>
                                     <td>Regards,<br/>
-                                        <span style="font-weight: 500"><strong>ISS Corporate
-                                            Solutions</strong></span></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr th:if="${(isForgotPassword ne null and isForgotPassword) || (isForgotUsername ne null and isForgotUsername)}">
-                        <td>
-                            <table
-                                    style="margin-top: 20px; padding-top: 10px; border-top: 1px solid #ebebeb">
-                                <tr>
-                                    <td th:utext="${mailContact}">
-                                    </td>
+                                        <span style="font-weight: 500"><strong>E-Helpdesk Team</strong></span></td>
                                 </tr>
                             </table>
                         </td>
@@ -160,18 +153,17 @@
         <tr>
             <td>
                 <table
-                        style="background-color:#142535; padding:16px; border-top: 16px solid #135b8d">
+                        style="background-color:#142535; padding:16px; border-top: 16px solid #135b8d; width: 100%">
                     <tr>
                         <td style="border-bottom: 1px solid #135b8d; padding-bottom: 6px; font-size: 20px;font-weight: 300">
                             E <span style="color:#135b8d">Helpdesk</span></td>
                     </tr>
                     <tr>
                         <td style="padding-top:6px; font-size: 11px;">
-                            For important information about ICS’ relationship with its parent
-                            company, ISS, and our business practices, please click here.
-                            © 2017 ISS Corporate Solutions. All Rights Reserved.
-                            <a style=" color: #135b8d; font-weight: 400;" href="#">View
-                                Legal Notices and Privacy Policy.</a>
+                            For important information about E-Helpdesk & its operations and process,
+                            please click here.
+                            © 2020 E-Helpdesk. All Rights Reserved.
+                            <p><a style=" color: #135b8d; font-weight: 400;" href="#">View E-Helpdesk Resources.</a></p>
                         </td>
                     </tr>
                 </table>

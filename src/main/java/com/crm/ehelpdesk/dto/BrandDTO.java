@@ -3,6 +3,8 @@ package com.crm.ehelpdesk.dto;
 import com.crm.ehelpdesk.domain.Brand;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BrandDTO {
     private Long id;
@@ -10,6 +12,8 @@ public class BrandDTO {
     private String name;
 
     private String country;
+
+    private List<ProductDTO> products;
 
     public BrandDTO() {
     }
@@ -24,6 +28,7 @@ public class BrandDTO {
         this.id = brand.getId();
         this.name = brand.getName();
         this.country = brand.getCountry();
+        this.products = brand.getProducts().stream().map(ProductDTO::new).collect(Collectors.toList());
     }
 
     public Long getId() {
@@ -48,5 +53,13 @@ public class BrandDTO {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public List<ProductDTO> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductDTO> products) {
+        this.products = products;
     }
 }

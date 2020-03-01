@@ -5,3 +5,17 @@
 .dashboard-container, .dashboard-container table {
     font-size: 85%;
 }
+
+.new-complaint-form .form-row .col {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.new-complaint-form .form-row {
+    margin-bottom: 20px;
+}
+
+.new-complaint-form form {
+    padding-left: 13rem;
+    padding-right: 13rem;
+}

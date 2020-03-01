@@ -7,6 +7,10 @@
   background-color: #192D43;
 }
 
+.section-products ul {
+  list-style: none;
+}
+
 .meals-showcase {
   list-style: none;
   width: 100%;

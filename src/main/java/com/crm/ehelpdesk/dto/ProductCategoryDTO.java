@@ -1,8 +1,10 @@
 package com.crm.ehelpdesk.dto;
 
+import com.crm.ehelpdesk.domain.ComplaintType;
 import com.crm.ehelpdesk.domain.ProductCategory;
 
-import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductCategoryDTO {
 
@@ -18,9 +20,12 @@ public class ProductCategoryDTO {
 
     private String categoryName;
 
+    private List<ComplaintTypeDTO> complaintTypes;
+
     public ProductCategoryDTO(ProductCategory productCategory) {
         this.id = productCategory.getId();
         this.categoryName = productCategory.getCategoryName();
+        this.complaintTypes = productCategory.getComplaintTypes().stream().map(ComplaintTypeDTO::new).collect(Collectors.toList());
     }
 
     public Long getId() {
@@ -37,5 +42,13 @@ public class ProductCategoryDTO {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public List<ComplaintTypeDTO> getComplaintTypes() {
+        return complaintTypes;
+    }
+
+    public void setComplaintTypes(List<ComplaintTypeDTO> complaintTypes) {
+        this.complaintTypes = complaintTypes;
     }
 }

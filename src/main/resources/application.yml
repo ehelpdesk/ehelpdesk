@@ -20,7 +20,7 @@ management:
 
 spring:
   application:
-    name: queryfier
+    name: ehelpdesk
   profiles:
     active: #spring.profiles.active#
   mvc:

@@ -1,6 +1,7 @@
 package com.crm.ehelpdesk.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "brand")
@@ -14,6 +15,9 @@ public class Brand {
 
     @Column(name = "country")
     private String country;
+
+    @OneToMany(mappedBy = "brand")
+    private List<Product> products;
 
     public Long getId() {
         return id;
@@ -37,5 +41,13 @@ public class Brand {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

@@ -1,0 +1,12 @@
+<div class="container dashboard-main">
+    <div class="w-100 text-center">
+        <h3>WELCOME TO E-HELPDESK</h3>
+        <h1>How can we help?</h1>
+    </div>
+    <div class="menu-container px-md-7 px-sm-0">
+        <eh-admin-menu *ngIf="role==='ROLE_ADMIN'" class="row justify-content-center"></eh-admin-menu>
+        <eh-manager-menu *ngIf="role==='ROLE_MANAGER'" class="row justify-content-center"></eh-manager-menu>
+        <eh-technician-menu *ngIf="role==='ROLE_TECHNICIAN'" class="row justify-content-center"></eh-technician-menu>
+        <eh-customer-menu *ngIf="role==='ROLE_CUSTOMER'" class="row justify-content-center"></eh-customer-menu>
+    </div>
+</div>

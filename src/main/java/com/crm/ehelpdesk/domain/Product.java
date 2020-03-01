@@ -19,11 +19,11 @@ public class Product {
     private Integer brandId;
 
     @OneToOne
-    @JoinColumn(name = "id", updatable = false, insertable = false, referencedColumnName = "category_id")
+    @JoinColumn(name = "category_id", updatable = false, insertable = false, referencedColumnName = "id")
     private ProductCategory productCategory;
 
-    @OneToOne
-    @JoinColumn(name = "id", updatable = false, insertable = false, referencedColumnName = "brand_id")
+    @ManyToOne
+    @JoinColumn(name = "brand_id", updatable=false, insertable=false)
     private Brand brand;
 
     public Long getId() {

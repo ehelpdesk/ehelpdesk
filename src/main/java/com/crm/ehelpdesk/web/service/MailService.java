@@ -5,6 +5,7 @@ import com.crm.ehelpdesk.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -55,6 +56,7 @@ public class MailService {
       message.setFrom(applicationProperties.getMail().getFrom());
       message.setSubject(subject);
       message.setText(content, isHtml);
+      message.addInline("logo", new ClassPathResource("/static/images/logo.png"));
       javaMailSender.send(mimeMessage);
       log.debug("Sent email to User '{}'", to);
     } catch (MailException | MessagingException e) {
@@ -70,7 +72,7 @@ public class MailService {
     context.setVariable(BASE_URL, applicationProperties.getMail().getBaseUrl());
     String content = templateEngine.process(templateName, context);
     String subject = messageSource.getMessage(titleKey, null, Locale.ENGLISH);
-    sendEmail(user.getEmail(), subject, content, false, true);
+    sendEmail(user.getEmail(), subject, content, true, true);
   }
 
   @Async

@@ -1,6 +1,5 @@
 import {Routes} from '@angular/router';
 import {DashboardComponent} from './dashboard.component';
-import * as routeConstant from '../route.constants';
 import {UserRouteAccessService} from 'app/core/auth/user-route-access-service';
 
 const PAGE_ROUTES =
@@ -24,6 +23,10 @@ const PAGE_ROUTES =
     {
       path: 'myAccount',
       loadChildren: () => import('./my-account/my-account-routing.module').then(m => m.MyAccountRoutingModule)
+    },
+    {
+      path: 'main',
+      loadChildren: () => import('./main/main-routing.module').then(m => m.MainRoutingModule)
     }
   ];
 export const pageState: Routes = [

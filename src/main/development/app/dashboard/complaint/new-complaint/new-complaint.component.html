@@ -1,0 +1,90 @@
+<div class="container new-complaint-form">
+    <div class="w-100 text-center">
+        <h1>New Complaint</h1>
+    </div>
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+        <eh-alert-error></eh-alert-error>
+        <div class="form-row">
+            <div class="col">
+                <label>Brand*</label>
+                <select class="form-control" name="brand" formControlName="brand" (click)="populateProducts()">
+                    <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</option>
+                </select>
+                <div *ngIf="editForm.get('brand') && (editForm.get('brand').dirty || editForm.get('brand').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('brand').errors && editForm.get('brand').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="col">
+                <label>Product*</label>
+                <select class="form-control" name="product" formControlName="product"
+                        (ngModelChange)="selectProductCategory()"
+                        [disabled]="!products || products.length ===0">
+                    <option *ngFor="let product of products" [value]="product.id">{{product.productName}}</option>
+                </select>
+                <div *ngIf="editForm.get('product') && (editForm.get('product').dirty || editForm.get('product').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('product').errors && editForm.get('product').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <label>Product Category*</label>
+                <input disabled type="text" formControlName="productCategory" class="form-control"
+                       name="productCategory"
+                       [value]="productCategory">
+            </div>
+            <div class="col">
+                <label>Complaint Type*</label>
+                <select class="form-control" name="complaintType" formControlName="complaintType"
+                        [disabled]="!complaintTypes || complaintTypes.length ===0">
+                    <option *ngFor="let complaintType of complaintTypes"
+                            [value]="complaintType.id">{{complaintType.type}}</option>
+                </select>
+                <div *ngIf="editForm.get('complaintType') && (editForm.get('complaintType').dirty || editForm.get('complaintType').touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('complaintType').errors && editForm.get('complaintType').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <label>User First Name*</label>
+                <input type="text" formControlName="userFirstName" class="form-control"
+                       name="userFirstName"
+                       [value]="productCategory">
+            </div>
+            <div class="col">
+                <label>User Last Name*</label>
+                <input type="text" formControlName="userLastName" class="form-control"
+                       name="userLastName"
+                       [value]="productCategory">
+            </div>
+            <div class="col">
+                <label>User Email*</label>
+                <input type="text" formControlName="userEmail" class="form-control"
+                       name="userEmail"
+                       [value]="productCategory">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <label>User Address*</label>
+                <textarea name="userAddress" class="form-control" id="userAddress" cols="61" rows="10"
+                          formControlName="userAddress"></textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Save Product Purchase</button>
+            </div>
+        </div>
+    </form>
+</div>

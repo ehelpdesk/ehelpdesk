@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit {
   }
 
   navigateToDashboard() {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/dashboard/main/first']);
   }
 
   toggleSideMenu() {

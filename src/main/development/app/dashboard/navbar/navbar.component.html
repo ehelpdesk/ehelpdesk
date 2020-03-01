@@ -6,17 +6,17 @@
         <img src="../../../content/images/knightknout.jpeg" width="30" height="30" alt="">
       </a>-->
       <div class="side-bar-contents">
-        <button class="hamburger-btn btn btn-regular btn-primary mr-3" id="sidebar-toggle" (click)="toggleSideMenu()">
+       <!-- <button class="hamburger-btn btn btn-regular btn-primary mr-3" id="sidebar-toggle" (click)="toggleSideMenu()">
           <fa-icon icon="bars" fixedWidth="true" id="sidebar-toggle-icon"></fa-icon>
-        </button>
+        </button>-->
         <img src="../../../content/images/ehelpdesk.png" alt="The logo" class="sidebar-logo" (click)="navigateToDashboard()">
       </div>
       <ul class="nav-bar">
         <li><img src="../../../content/images/ehelpdesk.png" alt="The logo" class="navbar-logo"
                  (click)="navigateToDashboard()"></li>
-        <li><a routerLink="/dashboard" (click)="activateNav('home')"
+        <!--<li><a routerLink="/dashboard" (click)="activateNav('home')"
                [class.active]="activeNav == 'home'">Home</a></li>
-        <li><a routerLink="mainQueryfierEntry" (click)="activateNav('search')"
+        <li><a routerLink="mainE-HelpdeskEntry" (click)="activateNav('search')"
                [ngClass]="activeNav=='search' ? 'active' : ''">Search</a></li>
         <li (click)="activateNav('admin')" [ngClass]="activeNav=='admin' ? 'active' : ''"
             *ngIf="role==='ROLE_ADMIN' || role === 'ROLE_SUPER_ADMIN'">
@@ -43,7 +43,7 @@
               </a></li>
           </ul>
         </li>
-        <li><a href="#" (click)="logout()">Logout</a></li>
+        <li><a href="#" (click)="logout()">Logout</a></li>-->
         <li class="float-right">Hi {{loggedInUserFirstName}}</li>
       </ul>
     </nav>

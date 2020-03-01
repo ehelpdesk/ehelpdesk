@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.accountService.isLoginActive().subscribe();
         this.accountService.identity().subscribe(account => {
             this.role = account.authority;
+            this.router.navigate(['/dashboard/main/first']);
         });
     }
 
