@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {NewComplaintService} from 'app/dashboard/complaint/new-complaint/new-complaint.service';
 import {BrandsService} from 'app/dashboard/main/brands.service';
+import {ActivatedRoute} from '@angular/router';
+import {ComplaintService} from 'app/dashboard/complaint/complaint.service';
 
 @Component({
     selector: 'eh-new-complaint',
@@ -28,11 +29,16 @@ export class NewComplaintComponent implements OnInit {
     isSaving: boolean;
 
     constructor(private fb: FormBuilder
-        , private newComplaintService: NewComplaintService
+        , private route: ActivatedRoute
+        , private newComplaintService: ComplaintService
         , private brandsService: BrandsService) {
     }
 
     ngOnInit() {
+        this.route.data.subscribe(({complaint}) => {
+            this.complaint = complaint.body ? complaint.body : complaint;
+            this.updateComplaint();
+        });
         this.brandsService.getBrands().subscribe(response => {
             this.brands = response;
         });
@@ -45,7 +51,7 @@ export class NewComplaintComponent implements OnInit {
     }
 
     save() {
-        this.updateComplaint(this.complaint);
+        this.updateComplaint();
         if (this.complaint.id) {
             this.newComplaintService.update(this.complaint).subscribe(response => this.onSaveSuccess(response), () => this.onSaveError());
         } else {
@@ -55,20 +61,30 @@ export class NewComplaintComponent implements OnInit {
 
     selectProductCategory() {
         if (this.editForm.get('product') && this.editForm.get('product').value) {
-            this.productCategory = this.products.filter(product => product.id === parseInt(this.editForm.get('product').value, 10))[0].productCategory.categoryName;
-            this.complaintTypes = this.products.filter(product => product.id === parseInt(this.editForm.get('product').value, 10))[0].productCategory.complaintTypes;
+            this.productCategory = this.getSelectedProduct().productCategory.categoryName;
+            this.complaintTypes = this.getSelectedProduct().productCategory.complaintTypes;
         }
     }
 
-    private updateComplaint(complaint: any) {
-        if (!complaint) {
-            complaint = {};
+    private getSelectedProduct() {
+        return this.products.filter(product => product.id === parseInt(this.editForm.get('product').value, 10))[0];
+    }
+
+    private getSelectedComplaintType() {
+        return this.complaintTypes.filter(complaintType => complaintType.id === parseInt(this.editForm.get('complaintType').value, 10))[0];
+    }
+
+    private updateComplaint() {
+        if (!this.complaint) {
+            this.complaint = {};
         }
-        complaint.brand = this.editForm.get(['brand']).value;
-        complaint.product = this.editForm.get(['product']).value;
-        complaint.productCategory = this.editForm.get(['productCategory']).value;
-        complaint.complaintType = this.editForm.get(['complaintType']).value;
-        complaint.complaintDescription = this.editForm.get(['complaintDescription']).value;
+        this.complaint.brand = this.editForm.get(['brand']).value;
+        this.complaint.product = this.editForm.get(['product']).value;
+        this.complaint.productName = this.getSelectedProduct().productName;
+        this.complaint.productCategory = this.editForm.get(['productCategory']).value;
+        this.complaint.complaintType = this.editForm.get(['complaintType']).value;
+        this.complaint.complaintTypeName = this.getSelectedComplaintType().type;
+        this.complaint.complaintDescription = this.editForm.get(['complaintDescription']).value;
     }
 
     private onSaveSuccess(result) {

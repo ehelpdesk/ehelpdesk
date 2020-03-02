@@ -21,8 +21,25 @@ public class Complaint {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "billAmount")
+    private Long billAmount;
+
     @Column(name = "status")
     private String status;
+
+    @Column(name = "technician_id")
+    private Long technicianId;
+
+    @OneToOne
+    @JoinColumn(name = "product_id", updatable = false, insertable = false, referencedColumnName = "id")
+    private Product product;
+
+    @OneToOne
+    @JoinColumn(name = "complaint_type_id", updatable = false, insertable = false, referencedColumnName = "id")
+    private ComplaintType complaintType;
 
     public Long getId() {
         return id;
@@ -64,11 +81,51 @@ public class Complaint {
         this.description = description;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getTechnicianId() {
+        return technicianId;
+    }
+
+    public void setTechnicianId(Long technicianId) {
+        this.technicianId = technicianId;
+    }
+
+    public ComplaintType getComplaintType() {
+        return complaintType;
+    }
+
+    public void setComplaintType(ComplaintType complaintType) {
+        this.complaintType = complaintType;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Long getBillAmount() {
+        return billAmount;
+    }
+
+    public void setBillAmount(Long billAmount) {
+        this.billAmount = billAmount;
     }
 }

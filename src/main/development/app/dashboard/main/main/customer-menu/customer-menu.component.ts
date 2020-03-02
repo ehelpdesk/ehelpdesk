@@ -35,4 +35,8 @@ export class CustomerMenuComponent implements OnInit {
       this.router.navigate(['home']);
     });
   }
+
+  navigateToMyAccount() {
+    this.router.navigate(['/dashboard/myAccount/changePassword']);
+  }
 }

@@ -24,7 +24,7 @@ export class AlertErrorComponent implements OnDestroy {
 
         this.cleanHttpSuccessListener = eventManager.subscribe('Ehelpdesk_httpSuccess', response => {
             const successAlert: AlertType = 'success';
-            this.addErrorAlert(response.content, 'success', successAlert);
+            this.addErrorAlert(response.content, null, null, successAlert);
         });
 
         this.cleanHttpErrorListener = eventManager.subscribe('Ehelpdesk_httpError', response => {
@@ -108,7 +108,7 @@ export class AlertErrorComponent implements OnDestroy {
             type,
             msg: message,
             params: data,
-            timeout: 5000,
+            timeout: 50000,
             toast: this.alertService.isToast(),
             scoped: true
         };

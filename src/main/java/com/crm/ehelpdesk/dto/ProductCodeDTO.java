@@ -9,6 +9,7 @@ public class ProductCodeDTO {
     private String userEmail;
     private String userMobileNo;
     private String userAddress;
+    private String userCity;
     private ProductDTO productDTO;
 
     public ProductCodeDTO(ProductCode productCode) {
@@ -80,6 +81,14 @@ public class ProductCodeDTO {
 
     public void setUserAddress(String userAddress) {
         this.userAddress = userAddress;
+    }
+
+    public String getUserCity() {
+        return userCity;
+    }
+
+    public void setUserCity(String userCity) {
+        this.userCity = userCity;
     }
 
     public ProductDTO getProductDTO() {

@@ -39,4 +39,8 @@ export class ManagerMenuComponent implements OnInit {
     addProductPurchase() {
         this.router.navigate(['/dashboard/main/addProductPurchase']);
     }
+
+  navigateToMyAccount() {
+    this.router.navigate(['/dashboard/myAccount/changePassword']);
+  }
 }

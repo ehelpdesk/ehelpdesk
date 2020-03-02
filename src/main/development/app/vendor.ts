@@ -39,7 +39,16 @@ import {
   faTasks,
   faHome,
   faArrowDown,
-  faAngleDown, faFileAlt, faBoxes, faUserCircle, faLocationArrow, faAward, faTools, faLayerGroup, faShoppingCart
+  faAngleDown,
+  faFileAlt,
+  faBoxes,
+  faUserCircle,
+  faLocationArrow,
+  faAward,
+  faTools,
+  faLayerGroup,
+  faShoppingCart,
+  faUsers
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -87,3 +96,4 @@ library.add(faAward);
 library.add(faTools);
 library.add(faLayerGroup);
 library.add(faShoppingCart);
+library.add(faUsers);

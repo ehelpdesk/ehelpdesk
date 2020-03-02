@@ -312,4 +312,11 @@ public class UserService {
         return registerUser(userDto, customerDTO.getPassword());
     }
 
+    public List<User> getUserByAuthorities(Set<Authority> authorities) {
+        return userRepository.findByAuthoritiesIn(authorities);
+    }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).get();
+    }
 }

@@ -1,0 +1,67 @@
+<div class="row justify-content-center ml-0 mr-0">
+    <div class="col-6">
+        <div *ngIf="complaint">
+            <h2>
+                <b>Complaint</b>
+            </h2>
+            <div class="row p-1">
+                <div class="col"><b>Id</b></div>
+                <div class="col">
+                    <span>{{complaint.id}}</span>
+                </div>
+            </div>
+            <div class="row p-1">
+                <div class="col"><b>Product Name</b></div>
+                <div class="col">{{complaint.productName}}</div>
+            </div>
+            <div class="row p-1">
+                <div class="col"><b>Complaint Type</b></div>
+                <div class="col">{{complaint.complaintTypeName}}</div>
+            </div>
+            <div class="row p-1">
+                <div class="col"><b>Complaint Description</b></div>
+                <div class="col">{{complaint.complaintDescription}}</div>
+            </div>
+            <div class="row p-1">
+                <div class="col"><b>Status</b></div>
+                <div class="col">{{complaint.status}}</div>
+            </div>
+            <ng-container *ngIf="role === 'ROLE_MANAGER'">
+                <div class="form-row">
+                    <div class="col"><label for="technician">Technician</label></div>
+                    <div class="col">
+                        <select class="form-control" name="technician" id="technician"
+                                [disabled]="!technicians || technicians.length ===0" [(ngModel)]="selectTechnician">
+                            <option *ngFor="let technician of technicians"
+                                    [value]="technician.id">{{technician.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="role === 'ROLE_TECHNICIAN'">
+                <div class="form-row">
+                    <div class="col"><label for="billAmount">Bill Amount</label></div>
+                    <div class="col">
+                        <input type="text" id="billAmount" [(ngModel)]="billAmount" ehOnlyNumbers="true">
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <button type="submit"
+                routerLink="../../complaints"
+                class="btn btn-info mt-3 mr-2">
+            <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+        </button>
+        <ng-container *ngIf="role === 'ROLE_MANAGER'">
+            <button  (click)="assignComplaint()"
+                    class="btn btn-info mt-3">
+                <span>Assign</span>
+            </button>
+        </ng-container>
+        <ng-container *ngIf="role === 'ROLE_TECHNICIAN'">
+            <button (click)="resolveComplaint()" class="btn btn-info mt-3">
+                <span>Resolve</span>
+            </button>
+        </ng-container>
+    </div>
+</div>

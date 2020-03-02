@@ -36,4 +36,8 @@ export class TechnicianMenuComponent implements OnInit {
     });
   }
 
+  navigateToMyAccount() {
+    this.router.navigate(['/dashboard/myAccount/changePassword']);
+  }
+
 }

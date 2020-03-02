@@ -28,6 +28,9 @@ public class ProductCode implements Serializable {
     @Column(name = "user_addresss")
     private String userAddress;
 
+    @Column(name = "user_city")
+    private String userCity;
+
     @Column(name = "used")
     private boolean used;
 
@@ -89,6 +92,14 @@ public class ProductCode implements Serializable {
 
     public void setUserAddress(String userAddress) {
         this.userAddress = userAddress;
+    }
+
+    public String getUserCity() {
+        return userCity;
+    }
+
+    public void setUserCity(String userCity) {
+        this.userCity = userCity;
     }
 
     public boolean isUsed() {

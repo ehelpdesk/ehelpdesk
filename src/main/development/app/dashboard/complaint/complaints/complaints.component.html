@@ -1,1 +1,54 @@
-<p>complaints works!</p>
+<div>
+    <h3>
+        <span id="user-management-page-heading">Complaints</span>
+        <button class="btn btn-primary float-right" [routerLink]="['/dashboard/main/complaint/newComplaint']">
+            <fa-icon [icon]="'plus'"></fa-icon> <span>Raise a new complaint</span>
+        </button>
+    </h3>
+    <eh-alert></eh-alert>
+    <div class="table-responsive pt-3" *ngIf="complaints">
+        <table class="table table-striped" aria-describedby="user-management-page-heading">
+            <thead>
+            <tr>
+                <th scope="col"><span>Id</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th scope="col"><span>Product Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th scope="col"><span>Complaint Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th scope="col"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody *ngIf ="complaints">
+            <tr *ngFor="let complaint of complaints; trackBy: trackIdentity">
+                <td><a [routerLink]="['./../', complaint.id, 'view']">{{complaint.id}}</a></td>
+                <td>{{complaint.productName}}</td>
+                <td>{{complaint.complaintTypeName}}</td>
+                <td>{{complaint.status}}</td>
+                <!--<td>{{complaint.createdDate | date:'dd/MM/yy HH:mm'}}</td>
+                <td>{{complaint.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</td>-->
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['./../', complaint.id, 'view']"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['./../', complaint.id, 'edit']"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="button" (click)="deleteComplaint(complaint)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

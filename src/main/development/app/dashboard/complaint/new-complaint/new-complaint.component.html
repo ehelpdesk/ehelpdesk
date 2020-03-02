@@ -56,34 +56,17 @@
         </div>
         <div class="form-row">
             <div class="col">
-                <label>User First Name*</label>
-                <input type="text" formControlName="userFirstName" class="form-control"
-                       name="userFirstName"
-                       [value]="productCategory">
-            </div>
-            <div class="col">
-                <label>User Last Name*</label>
-                <input type="text" formControlName="userLastName" class="form-control"
-                       name="userLastName"
-                       [value]="productCategory">
-            </div>
-            <div class="col">
-                <label>User Email*</label>
-                <input type="text" formControlName="userEmail" class="form-control"
-                       name="userEmail"
-                       [value]="productCategory">
+                <label>Complaint Description*</label>
+                <textarea name="complaintDescription" class="form-control" id="complaintDescription" cols="61" rows="10"
+                          formControlName="complaintDescription"></textarea>
             </div>
         </div>
         <div class="form-row">
             <div class="col">
-                <label>User Address*</label>
-                <textarea name="userAddress" class="form-control" id="userAddress" cols="61" rows="10"
-                          formControlName="userAddress"></textarea>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col">
-                <button type="submit" class="btn btn-primary">Save Product Purchase</button>
+                <button type="button" class="btn btn-secondary mr-2" (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" class="btn btn-primary">Save Complaint</button>
             </div>
         </div>
     </form>
