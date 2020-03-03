@@ -46,6 +46,7 @@ export class RegistrationComponent implements OnInit {
             confirmPassword: this.registrationForm.get('confirmPassword').value,
             address: this.registrationForm.get('address').value
         }).subscribe((response: any) => {
+            window.scroll(0, 0);
             this.eventManager.broadcast({
                 name: 'Ehelpdesk_httpSuccess',
                 content: 'Registration Successful, Please check your email.'

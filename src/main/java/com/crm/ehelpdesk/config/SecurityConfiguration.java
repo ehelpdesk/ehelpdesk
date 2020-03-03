@@ -18,7 +18,6 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
@@ -31,18 +30,15 @@ import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 @Import(SecurityProblemSupport.class)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  private final RememberMeServices rememberMeServices;
-
   private final CorsFilter corsFilter;
   private final SecurityProblemSupport problemSupport;
   private final ApplicationProperties applicationProperties;
   private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
   private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-  public SecurityConfiguration(RememberMeServices rememberMeServices, CorsFilter corsFilter,
+  public SecurityConfiguration(CorsFilter corsFilter,
                                SecurityProblemSupport problemSupport, ApplicationProperties applicationProperties,
                                CustomLogoutSuccessHandler customLogoutSuccessHandler, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
-    this.rememberMeServices = rememberMeServices;
     this.corsFilter = corsFilter;
     this.problemSupport = problemSupport;
     this.applicationProperties = applicationProperties;
@@ -93,11 +89,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .exceptionHandling()
       .authenticationEntryPoint(problemSupport)
       .accessDeniedHandler(problemSupport)
-      .and()
-      .rememberMe()
-      .rememberMeServices(rememberMeServices)
-      .rememberMeParameter("remember-me")
-      .key(applicationProperties.getSecurity().getRememberMe().getKey())
       .and()
       .formLogin()
       .loginProcessingUrl("/api/authentication")

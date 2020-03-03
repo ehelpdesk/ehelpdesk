@@ -1,9 +1,7 @@
 package com.crm.ehelpdesk.web.rest;
 
 
-import com.crm.ehelpdesk.dao.repository.PersistentTokenRepository;
 import com.crm.ehelpdesk.dao.repository.UserRepository;
-import com.crm.ehelpdesk.domain.PersistentToken;
 import com.crm.ehelpdesk.domain.User;
 import com.crm.ehelpdesk.dto.*;
 import com.crm.ehelpdesk.exception.EmailAlreadyUsedException;
@@ -45,16 +43,13 @@ public class AccountResource {
 
   private final MailService mailService;
 
-  private final PersistentTokenRepository persistentTokenRepository;
-
   private final ProductService productService;
 
-  public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, PersistentTokenRepository persistentTokenRepository, ProductService productService) {
+  public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, ProductService productService) {
 
     this.userRepository = userRepository;
     this.userService = userService;
     this.mailService = mailService;
-    this.persistentTokenRepository = persistentTokenRepository;
     this.productService = productService;
   }
 
@@ -128,25 +123,6 @@ public class AccountResource {
     userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
   }
 
-  @GetMapping("/account/sessions")
-  public List<PersistentToken> getCurrentSessions() {
-    return persistentTokenRepository.findByUser(
-      userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()
-        .orElseThrow(() -> new AccountResourceException("Current user login not found")))
-        .orElseThrow(() -> new AccountResourceException("User could not be found"))
-    );
-  }
-
-  @DeleteMapping("/account/sessions/{series}")
-  public void invalidateSession(@PathVariable String series) throws UnsupportedEncodingException {
-    String decodedSeries = URLDecoder.decode(series, "UTF-8");
-    SecurityUtils.getCurrentUserLogin()
-      .flatMap(userRepository::findOneByLogin)
-      .ifPresent(u ->
-        persistentTokenRepository.findByUser(u).stream()
-          .filter(persistentToken -> StringUtils.equals(persistentToken.getSeries(), decodedSeries))
-          .findAny().ifPresent(t -> persistentTokenRepository.deleteById(decodedSeries)));
-  }
 
   @PostMapping(path = "/account/reset-password/start")
   public void requestPasswordReset(@RequestBody String mail) {

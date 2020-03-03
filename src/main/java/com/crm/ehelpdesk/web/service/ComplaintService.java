@@ -7,6 +7,8 @@ import com.crm.ehelpdesk.domain.Complaint;
 import com.crm.ehelpdesk.domain.User;
 import com.crm.ehelpdesk.dto.ComplaintDTO;
 import com.crm.ehelpdesk.security.SecurityUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -50,6 +52,10 @@ public class ComplaintService {
             Long technicianId = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get().getId();
             complaints = complaints.stream().filter(complaint -> complaint.getTechnicianId() != null && complaint.getTechnicianId().equals(technicianId)).collect(Collectors.toList());
         }
+        if(authority.equals(AuthoritiesConstants.CUSTOMER)) {
+            Long getUserId = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get().getId();
+            complaints = complaints.stream().filter(complaint -> complaint.getUserId() != null && complaint.getUserId().equals(getUserId)).collect(Collectors.toList());
+        }
         return complaints.stream().map(ComplaintDTO::new).collect(Collectors.toList());
     }
 
@@ -92,10 +98,17 @@ public class ComplaintService {
             String billAmount = (String) complaintDetails.get("billAmount");
             complaint.setBillAmount(Long.parseLong(billAmount));
             complaint.setStatus("RESOLVED");
+            complaint.setBillNumber(Integer.parseInt(RandomStringUtils.randomNumeric(5)));
             complaintRepository.save(complaint);
             ComplaintDTO complaintDTO = new ComplaintDTO(complaint);
             User customer = userService.getUserById(complaint.getUserId());
+            complaintDTO.setRaisedBy(customer.getLogin());
             mailService.sendComplaintResolvedEmail(complaintDTO, customer);
+
+            List<User> managers = userService.getUserByAuthorities(Collections.singleton(new Authority("ROLE_MANAGER")));
+            managers.forEach(manager -> {
+                mailService.sendComplaintResolvedEmail(complaintDTO, manager);
+            });
         });
     }
 }

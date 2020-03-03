@@ -24,8 +24,11 @@ public class Complaint {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "billAmount")
+    @Column(name = "bill_amount")
     private Long billAmount;
+
+    @Column(name = "bill_number")
+    private Integer billNumber;
 
     @Column(name = "status")
     private String status;
@@ -127,5 +130,13 @@ public class Complaint {
 
     public void setBillAmount(Long billAmount) {
         this.billAmount = billAmount;
+    }
+
+    public Integer getBillNumber() {
+        return billNumber;
+    }
+
+    public void setBillNumber(Integer billNumber) {
+        this.billNumber = billNumber;
     }
 }

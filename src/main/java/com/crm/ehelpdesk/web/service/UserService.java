@@ -1,11 +1,10 @@
 package com.crm.ehelpdesk.web.service;
 
-import com.crm.ehelpdesk.config.constants.Constants;
 import com.crm.ehelpdesk.config.security.AuthoritiesConstants;
 import com.crm.ehelpdesk.config.util.RandomUtil;
 import com.crm.ehelpdesk.dao.repository.AuthorityRepository;
 import com.crm.ehelpdesk.dao.repository.CustomerRepository;
-import com.crm.ehelpdesk.dao.repository.PersistentTokenRepository;
+import com.crm.ehelpdesk.dao.repository.ProductCodeRepository;
 import com.crm.ehelpdesk.dao.repository.UserRepository;
 import com.crm.ehelpdesk.domain.Authority;
 import com.crm.ehelpdesk.domain.Customer;
@@ -28,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -46,21 +44,21 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final PersistentTokenRepository persistentTokenRepository;
-
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
 
     private final CustomerRepository customerRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository, CacheManager cacheManager, CustomerRepository customerRepository) {
+    private final ProductCodeRepository productCodeRepository;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, CustomerRepository customerRepository, ProductCodeRepository productCodeRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
         this.customerRepository = customerRepository;
+        this.productCodeRepository = productCodeRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -125,7 +123,6 @@ public class UserService {
         newUser.setLastName(userDTO.getLastName());
         newUser.setEmail(userDTO.getEmail().toLowerCase());
         newUser.setImageUrl(userDTO.getImageUrl());
-        newUser.setLangKey(userDTO.getLangKey());
         newUser.setActivated(false);
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         authorityRepository.findById(AuthoritiesConstants.CUSTOMER).ifPresent(newUser::setAuthorities);
@@ -152,11 +149,6 @@ public class UserService {
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail().toLowerCase());
         user.setImageUrl(userDTO.getImageUrl());
-        if (userDTO.getLangKey() == null) {
-            user.setLangKey(Constants.DEFAULT_LANGUAGE);
-        } else {
-            user.setLangKey(userDTO.getLangKey());
-        }
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
         user.setPassword(encryptedPassword);
         user.setResetKey(RandomUtil.generateResetKey());
@@ -178,7 +170,6 @@ public class UserService {
                     user.setFirstName(firstName);
                     user.setLastName(lastName);
                     user.setEmail(email.toLowerCase());
-                    user.setLangKey(langKey);
                     user.setImageUrl(imageUrl);
                     this.clearUserCaches(user);
                     log.debug("Changed Information for User: {}", user);
@@ -198,7 +189,6 @@ public class UserService {
                     user.setEmail(userDTO.getEmail().toLowerCase());
                     user.setImageUrl(userDTO.getImageUrl());
                     user.setActivated(userDTO.isActivated());
-                    user.setLangKey(userDTO.getLangKey());
 //        Set<Authority> managedAuthorities = user.getAuthorities();
 //        managedAuthorities.clear();
 //        userDTO.getAuthority().stream()
@@ -257,17 +247,6 @@ public class UserService {
         return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void removeOldPersistentTokens() {
-        LocalDate now = LocalDate.now();
-        persistentTokenRepository.findByTokenDateBefore(now.minusMonths(1)).forEach(token -> {
-            log.debug("Deleting token {}", token.getSeries());
-            User user = token.getUser();
-            user.getPersistentTokens().remove(token);
-            persistentTokenRepository.delete(token);
-        });
-    }
-
     @Scheduled(cron = "0 0 1 * * ?")
     public void removeNotActivatedUsers() {
         userRepository
@@ -302,11 +281,16 @@ public class UserService {
     }
 
     public User registerCustomer(CustomerDTO customerDTO) {
+        long productCode = Long.parseLong(customerDTO.getProductCode());
+        productCodeRepository.findById(productCode).ifPresent(product -> {
+            product.setUsed(true);
+            productCodeRepository.save(product);
+        });
         UserDTO userDto = new UserDTO(customerDTO);
         registerUser(userDto, customerDTO.getPassword());
         Customer customer = new Customer();
         customer.setUsername(customerDTO.getUsername());
-        customer.setProductCode(Long.parseLong(customerDTO.getProductCode()));
+        customer.setProductCode(productCode);
         customer.setAddress(customerDTO.getAddress());
         customerRepository.save(customer);
         return registerUser(userDto, customerDTO.getPassword());

@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="text-center row justify-content-center">
+        <h1>
+            <span id="user-management-page-heading">Top Products</span>
+        </h1>
+        <eh-alert></eh-alert>
+        <div class="table-responsive pt-3" *ngIf="products">
+            <table class="table table-striped" aria-describedby="user-management-page-heading">
+                <thead>
+                <tr>
+                    <th scope="col"><span>Id</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th scope="col"><span>Product Name</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th scope="col"><span>Category Name</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                    <th scope="col"><span>Complaint Count</span>
+                        <fa-icon [icon]="'sort'"></fa-icon>
+                    </th>
+                </tr>
+                </thead>
+                <tbody *ngIf="products">
+                <tr *ngFor="let product of products; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{product.productName}}</td>
+                    <td>{{product.productCategory.categoryName}}</td>
+                    <td>{{product.numberOfComplaints}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

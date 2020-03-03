@@ -27,8 +27,8 @@
                 <div class="col">{{complaint.status}}</div>
             </div>
             <ng-container *ngIf="role === 'ROLE_MANAGER'">
-                <div class="form-row">
-                    <div class="col"><label for="technician">Technician</label></div>
+                <div class="form-row p-1">
+                    <div class="col"><label for="technician"><b>Technician</b></label></div>
                     <div class="col">
                         <select class="form-control" name="technician" id="technician"
                                 [disabled]="!technicians || technicians.length ===0" [(ngModel)]="selectTechnician">
@@ -39,10 +39,10 @@
                 </div>
             </ng-container>
             <ng-container *ngIf="role === 'ROLE_TECHNICIAN'">
-                <div class="form-row">
-                    <div class="col"><label for="billAmount">Bill Amount</label></div>
+                <div class="form-row p-1">
+                    <div class="col"><label for="billAmount"><b>Bill Amount</b></label></div>
                     <div class="col">
-                        <input type="text" id="billAmount" [(ngModel)]="billAmount" ehOnlyNumbers="true">
+                        <input type="text" id="billAmount" class="form-control" [(ngModel)]="billAmount" ehOnlyNumbers="true">
                     </div>
                 </div>
             </ng-container>

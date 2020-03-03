@@ -11,7 +11,6 @@ import {AccountService} from 'app/core/auth/account.service';
 })
 export class AdminManagementUpdateComponent implements OnInit {
   user: User;
-  languages: any[];
   authorities: any[];
   isSaving: boolean;
   role: string;

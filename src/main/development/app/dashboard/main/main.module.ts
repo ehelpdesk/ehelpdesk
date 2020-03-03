@@ -7,6 +7,8 @@ import {ManagerMenuComponent} from './main/manager-menu/manager-menu.component';
 import {TechnicianMenuComponent} from './main/technician-menu/technician-menu.component';
 import {CustomerMenuComponent} from './main/customer-menu/customer-menu.component';
 import {AdminMenuComponent} from './main/admin-menu/admin-menu.component';
+import { ProductsComponent } from './products/products.component';
+import { TopProductsComponent } from './top-products/top-products.component';
 
 @NgModule({
     declarations: [MainComponent, ManagerMenuComponent, TechnicianMenuComponent, CustomerMenuComponent, AdminMenuComponent],

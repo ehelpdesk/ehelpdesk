@@ -7,6 +7,8 @@ public class ProductDTO {
 
     private String productName;
 
+    private Integer numberOfComplaints;
+
     private ProductCategoryDTO productCategory;
 
     public ProductDTO() {
@@ -51,5 +53,13 @@ public class ProductDTO {
 
     public void setProductCategory(ProductCategoryDTO productCategory) {
         this.productCategory = productCategory;
+    }
+
+    public Integer getNumberOfComplaints() {
+        return numberOfComplaints;
+    }
+
+    public void setNumberOfComplaints(Integer numberOfComplaints) {
+        this.numberOfComplaints = numberOfComplaints;
     }
 }

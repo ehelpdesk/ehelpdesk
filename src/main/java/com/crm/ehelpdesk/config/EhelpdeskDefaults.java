@@ -30,7 +30,7 @@ public interface EhelpdeskDefaults {
   interface Mail {
     boolean enabled = false;
     String from = "alpha9ineinc@gmail.com";
-    String baseUrl = "http://localhost:9004/";
+    String baseUrl = "http://localhost:9595";
   }
 
   interface Security {
