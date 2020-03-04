@@ -48,7 +48,7 @@ import {
   faTools,
   faLayerGroup,
   faShoppingCart,
-  faUsers
+  faUsers, faFileInvoice
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -97,3 +97,4 @@ library.add(faTools);
 library.add(faLayerGroup);
 library.add(faShoppingCart);
 library.add(faUsers);
+library.add(faFileInvoice);

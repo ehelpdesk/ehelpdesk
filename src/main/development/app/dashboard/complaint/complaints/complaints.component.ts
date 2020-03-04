@@ -40,4 +40,8 @@ export class ComplaintsComponent implements OnInit {
         const modalRef = this.modalService.open(DeleteComplaintModalComponent, {size: 'lg', backdrop: 'static'});
         modalRef.componentInstance.complaint = complaint;
     }
+
+    openBill(complaint: any) {
+        window.open('/bill/' + complaint.id, '_blank');
+    }
 }
